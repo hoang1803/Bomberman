@@ -14,7 +14,6 @@ interface SCREEN {
     int SCREEN_HEIGHT = 500;
 }
 
-
 public abstract class Entity implements SCREEN {
     private int x;
     private int y;
@@ -97,11 +96,21 @@ public abstract class Entity implements SCREEN {
         return height;
     }
 
+    /**
+     * Get Image from path.
+     * @param path Path name
+     * @return Image
+     * @throws FileNotFoundException
+     */
     public static Image getImage(String path) throws FileNotFoundException {
         Image img = new Image(path);
         return img;
     }
 
+    /**
+     * Render an image.
+     * @param stage stage
+     */
     public void render(Stage stage) {
         ImageView imageView = new ImageView(image);
 
