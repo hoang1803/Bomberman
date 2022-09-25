@@ -3,7 +3,8 @@ module com.example.bomberman {
     requires javafx.fxml;
 
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
-    opens com.example.bomberman to javafx.fxml;
-    exports com.example.bomberman;
+    opens GameRunner to javafx.fxml;
+    exports GameRunner;
 }
