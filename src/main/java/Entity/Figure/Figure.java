@@ -7,7 +7,7 @@ public abstract class Figure extends Entity {
     protected int currentSpeed;
     protected int currentFrame;
     protected String direction;
-    protected boolean life;
+    protected int life;
 
     public Figure() {
 
@@ -17,7 +17,7 @@ public abstract class Figure extends Entity {
         super(x, y, image);
     }
 
-    public Figure(int currentSpeed, int currentFrame, String direction, boolean life) {
+    public Figure(int currentSpeed, int currentFrame, String direction, int life) {
         this.currentSpeed = currentSpeed;
         this.currentFrame = currentFrame;
         this.direction = direction;
@@ -36,7 +36,7 @@ public abstract class Figure extends Entity {
         this.direction = direction;
     }
 
-    public void setLife(boolean life) {
+    public void setLife(int life) {
         this.life = life;
     }
 
@@ -48,7 +48,7 @@ public abstract class Figure extends Entity {
         return currentFrame;
     }
 
-    public boolean isLife() {
+    public int getLife() {
         return life;
     }
 
