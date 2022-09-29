@@ -4,7 +4,7 @@ import Entity.Entity;
 import javafx.scene.image.Image;
 
 public abstract class Figure extends Entity {
-    protected double defaultSpeed;
+    protected int currentSpeed;
     protected int currentFrame;
     protected String direction;
     protected int life;
@@ -17,8 +17,8 @@ public abstract class Figure extends Entity {
         super(x, y, image);
     }
 
-    public Figure(double defaultSpeed, int currentFrame, String direction, int life) {
-        this.defaultSpeed = defaultSpeed;
+    public Figure(int currentSpeed, int currentFrame, String direction, int life) {
+        this.currentSpeed = currentSpeed;
         this.currentFrame = currentFrame;
         this.direction = direction;
         this.life = life;
@@ -28,8 +28,8 @@ public abstract class Figure extends Entity {
         this.currentFrame = currentFrame;
     }
 
-    public void setDefaultSpeed(double defaultSpeed) {
-        this.defaultSpeed = defaultSpeed;
+    public void setCurrentSpeed(int currentSpeed) {
+        this.currentSpeed = currentSpeed;
     }
 
     public void setDirection(String direction) {
@@ -40,8 +40,8 @@ public abstract class Figure extends Entity {
         this.life = life;
     }
 
-    public double getDefaultSpeed() {
-        return defaultSpeed;
+    public int getCurrentSpeed() {
+        return currentSpeed;
     }
 
     public int getCurrentFrame() {

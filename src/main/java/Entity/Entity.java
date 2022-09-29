@@ -35,5 +35,13 @@ public abstract class Entity{
         gc.drawImage(image, x, y);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public abstract void update();
 }

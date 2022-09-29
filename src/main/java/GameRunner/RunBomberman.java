@@ -19,6 +19,7 @@ public class RunBomberman extends Application {
 
     public static int level = 1;
     public static List<Figure> enemy = new ArrayList<>();
+    public static Figure player;
 
     private GraphicsContext gc;
     private Canvas canvas;
