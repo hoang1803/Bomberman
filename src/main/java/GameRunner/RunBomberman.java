@@ -1,6 +1,6 @@
 package GameRunner;
 
-import Entity.Character.Figure;
+import Entity.Figure.Figure;
 import Graphics.Sprite;
 import javafx.application.Application;
 import javafx.scene.Group;

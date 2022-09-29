@@ -1,4 +1,4 @@
-package Entity.Character;
+package Entity.Figure;
 
 import Graphics.Sprite;
 import javafx.scene.image.Image;
