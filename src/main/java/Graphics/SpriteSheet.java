@@ -2,6 +2,7 @@ package Graphics;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,8 +17,7 @@ public class SpriteSheet {
      */
     private void load() {
         try {
-            URL a = SpriteSheet.class.getResource(path);
-            image = ImageIO.read(a);
+            image = ImageIO.read(new File(path));
             int width = image.getWidth();
             int height = image.getHeight();
             image.getRGB(0, 0, width, height, spritePixel, 0, width);
@@ -39,5 +39,5 @@ public class SpriteSheet {
         load();
     }
 
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256);
+    public static SpriteSheet tiles = new SpriteSheet("res/textures/classic.png", 256);
 }

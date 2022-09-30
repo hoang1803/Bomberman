@@ -19,9 +19,10 @@ public class Sprite {
     private void load() {
         for(int y = 0; y < SIZE; y++) {
             for(int x = 0; x < SIZE; x++) {
-                pixels[x + y * SIZE] = sheet.spritePixel[(x + this.x) + (y + this.y) * SIZE];
+                pixels[x + y * SIZE] = sheet.spritePixel[(x + this.x) + (y + this.y) * this.sheet.SIZE];
             }
         }
+
     }
 
     /**
@@ -35,12 +36,12 @@ public class Sprite {
      */
     public Sprite(int SIZE, int x, int y, SpriteSheet spriteSheet, int realWidth, int realHeight) {
         this.SIZE = SIZE;
-        this.x = x;
-        this.y = y;
+        this.x = x * SIZE;
+        this.y = y * SIZE;
         this.realWidth = realWidth;
         this.realHeight = realHeight;
         this.sheet = spriteSheet;
-        this.pixels = new int[SIZE * SIZE];
+        this.pixels = new int[this.SIZE * this.SIZE];
         load();
     }
 
@@ -250,10 +251,10 @@ public class Sprite {
 
         for(int y = 0; y < H; y++) {
             for(int x = 0; x < W; x++) {
-                int argb = reader.getArgb(x, y);
-                for(int i = 0; i < S; i++) {
-                    for(int j = 0; j < S; j++) {
-                        writer.setArgb(i + x * S, j + y * S, argb);
+                final int argb = reader.getArgb(x, y);
+                for (int dy = 0; dy < S; dy++) {
+                    for (int dx = 0; dx < S; dx++) {
+                        writer.setArgb(x * S + dx, y * S + dy, argb);
                     }
                 }
             }
@@ -270,19 +271,21 @@ public class Sprite {
 
         PixelWriter writer = output.getPixelWriter();
 
-        for(int y = 0; y < SIZE; y++) {
-            for(int x = 0; x < SIZE; x++) {
-                int argb = pixels[x + y * SIZE];
-                if (argb == TRANSPARENT_COLOR) {
+        for(int x = 0; x < SIZE; x++) {
+            for(int y = 0; y < SIZE; y++){
+                if (pixels[x + y * SIZE] == TRANSPARENT_COLOR) {
                     writer.setArgb(x, y, 0);
                 } else {
-                    writer.setArgb(x, y, argb);
+                    writer.setArgb(x, y, pixels[x + y * SIZE]);
                 }
             }
         }
 
         Image input = new ImageView(output).getImage();
+
         return reSample(input, SCALED_SIZE / ORIGINAL_SIZE);
+
     }
+
 
 }
