@@ -36,12 +36,22 @@ public class Bomber extends Figure {
             int fX = figure.getX();
             int fY = figure.getY();
 
-            if(pX + Sprite.SCALED_SIZE - fX >= esp || fX + Sprite.SCALED_SIZE - pX >= esp) {
+            if(pX + Sprite.SCALED_SIZE - fX >= 0 && pX + Sprite.SCALED_SIZE - fX <= esp) {
                 isDead = true;
                 break;
             }
 
-            if(pY + Sprite.SCALED_SIZE - fY >= esp || fY + Sprite.SCALED_SIZE - pY >= esp) {
+            if(fX + Sprite.SCALED_SIZE - pX >= 0 && fX + Sprite.SCALED_SIZE - pX <= esp) {
+                isDead = true;
+                break;
+            }
+
+            if(pY + Sprite.SCALED_SIZE - fY >= 0 && pY + Sprite.SCALED_SIZE - fY <= esp) {
+                isDead = true;
+                break;
+            }
+
+            if(fY + Sprite.SCALED_SIZE - pY >= 0 && fY + Sprite.SCALED_SIZE - pY <= esp) {
                 isDead = true;
                 break;
             }
