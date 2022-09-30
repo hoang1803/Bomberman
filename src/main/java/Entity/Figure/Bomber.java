@@ -28,31 +28,26 @@ public class Bomber extends Figure {
 
     }
 
+    /**
+     * Giao nhau.
+     */
+    private boolean hasIntersect(int pos1, int pos2) {
+        int esp = 5;
+        return (pos1 + Sprite.SCALED_SIZE - pos2 > 0 &&
+                pos1 + Sprite.SCALED_SIZE - pos2 <= esp) ||
+                (pos2 + Sprite.SCALED_SIZE - pos1 > 0 &&
+                        pos2 + Sprite.SCALED_SIZE - pos1 <= esp);
+    }
+
     private void checkEnemy() {
         int pX = player.getX();
         int pY = player.getY();
-        int esp = 5;
         for(Figure figure : enemy) {
             int fX = figure.getX();
             int fY = figure.getY();
 
-            if(pX + Sprite.SCALED_SIZE - fX >= 0 && pX + Sprite.SCALED_SIZE - fX <= esp) {
-                isDead = true;
-                break;
-            }
-
-            if(fX + Sprite.SCALED_SIZE - pX >= 0 && fX + Sprite.SCALED_SIZE - pX <= esp) {
-                isDead = true;
-                break;
-            }
-
-            if(pY + Sprite.SCALED_SIZE - fY >= 0 && pY + Sprite.SCALED_SIZE - fY <= esp) {
-                isDead = true;
-                break;
-            }
-
-            if(fY + Sprite.SCALED_SIZE - pY >= 0 && fY + Sprite.SCALED_SIZE - pY <= esp) {
-                isDead = true;
+            if (hasIntersect(pX, fX) && hasIntersect(pY, fY)) {
+                isDead= true;
                 break;
             }
         }
