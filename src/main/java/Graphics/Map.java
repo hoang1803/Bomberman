@@ -18,6 +18,20 @@ import java.util.StringTokenizer;
 import static GameRunner.RunBomberman.*;
 
 public class Map {
+    public static final char WALL = '#';
+    public static final char BRICK = '*';
+    public static final char PORTAL = 'x';
+
+    public static final char PLAYER = 'p';
+    public static final char BALLOON = '1';
+    public static final char ONEAl = '2';
+    public static final char DOLL = '3';
+    public static final char KONDORIA = '4';
+    public static final char MINVO = '5';
+
+    public static final char BOMB_ITEM = 'b';
+    public static final char FLAME_ITEM = 'f';
+    public static final char SPEED_ITEM = 's';
     public Map(int level) {
         final String path = "res/levels/level" + level + ".txt";
         File file = new File(path);
@@ -55,13 +69,13 @@ public class Map {
                 Entity entity;
 
                 switch (objectMap[y][x]) {
-                    case '#':
+                    case WALL:
                         entity = new Wall(x, y, Sprite.wall.getFxImage());
                         break;
-                    case '*':
+                    case BRICK:
                         entity = new Brick(x, y, Sprite.brick.getFxImage());
                         break;
-                    case 'x':
+                    case PORTAL:
                         entity = new Portal(x, y, Sprite.portal.getFxImage());
                         break;
                     default:
