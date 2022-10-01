@@ -22,6 +22,8 @@ public class Map {
     public static final char BRICK = '*';
     public static final char PORTAL = 'x';
 
+    public static final char BOMB = 'z';
+
     public static final char PLAYER = 'p';
     public static final char BALLOON = '1';
     public static final char ONEAl = '2';
@@ -50,6 +52,7 @@ public class Map {
             block = new ArrayList<>();
 
             objectMap = new char[height][width];
+            killObject = new int[height][width];
 
             for(int y = 0; y < height; y++) {
                 line = sc.nextLine();
