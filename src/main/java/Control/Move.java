@@ -27,6 +27,10 @@ public class Move {
         }
     }
 
+    private static boolean hasBlock(char current) {
+        return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB);
+    }
+
     private static void renderUp(Figure figure) {
         if (figure instanceof Bomber) {
             Sprite.renderSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, figure);
@@ -42,7 +46,7 @@ public class Move {
         int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
         char cur = RunBomberman.objectMap[y][x];
         char cur2 = RunBomberman.objectMap[y][px];
-        if (cur == Map.WALL || cur == Map.BRICK || cur2 == Map.WALL || cur2 == Map.BRICK) {
+        if (hasBlock(cur) || hasBlock(cur2)) {
             int realY = y * SCALED_SIZE;
             speed = figure.getY() - (realY + SCALED_SIZE);
         }
@@ -67,7 +71,7 @@ public class Move {
         int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
         char cur = RunBomberman.objectMap[y][x];
         char cur2 = RunBomberman.objectMap[y][px];
-        if (cur == Map.WALL || cur == Map.BRICK || cur2 == Map.WALL || cur2 == Map.BRICK) {
+        if (hasBlock(cur) || hasBlock(cur2)) {
             int realY = y * SCALED_SIZE;
             speed = (realY - 1) - (figure.getY() + SCALED_SIZE - 1);
         }
@@ -92,7 +96,7 @@ public class Move {
         int x = (figure.getX() - speed) / SCALED_SIZE;
         char cur = RunBomberman.objectMap[y][x];
         char cur2 = RunBomberman.objectMap[py][x];
-        if (cur == Map.WALL || cur == Map.BRICK || cur2 == Map.WALL || cur2 == Map.BRICK) {
+        if (hasBlock(cur) || hasBlock(cur2)) {
             int realX = x * SCALED_SIZE;
             speed = figure.getX() - (realX + SCALED_SIZE);
         }
@@ -117,7 +121,7 @@ public class Move {
         int x = (figure.getX() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
         char cur = RunBomberman.objectMap[y][x];
         char cur2 = RunBomberman.objectMap[py][x];
-        if (cur == Map.WALL || cur == Map.BRICK || cur2 == Map.WALL || cur2 == Map.BRICK) {
+        if (hasBlock(cur) || hasBlock(cur2)) {
             int realX = x * SCALED_SIZE;
             speed = (realX - 1) - (figure.getX() + SCALED_SIZE - 1);
         }
