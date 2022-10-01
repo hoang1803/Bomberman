@@ -1,5 +1,6 @@
 package Entity.Figure;
 
+import GameRunner.RunBomberman;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -39,6 +40,23 @@ public class Bomber extends Figure {
                         pos2 + Sprite.SCALED_SIZE < pos1 + Sprite.SCALED_SIZE);
     }
 
+    private void checkBomb() {
+        int size = Sprite.SCALED_SIZE;
+        int x = this.x / size;
+        int px = (this.x + size - 1) / size;
+        int y = this.y / size;
+        int py = (this.y + size - 1) / size;
+
+        int leftUp = RunBomberman.killObject[y][x];
+        int leftDown = RunBomberman.killObject[py][x];
+        int rightUp = RunBomberman.killObject[y][px];
+        int rightDown = RunBomberman.killObject[py][px];
+
+        if(leftUp != 0 || leftDown != 0 || rightUp != 0 || rightDown != 0) {
+            isDead = true;
+        }
+    }
+
     private void checkEnemy() {
         int pX = player.getX();
         int pY = player.getY();
@@ -66,6 +84,7 @@ public class Bomber extends Figure {
     @Override
     public void update() {
         checkEnemy();
+        checkBomb();
 
         if (isDead) {
             player.life--;
