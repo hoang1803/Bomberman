@@ -25,7 +25,8 @@ public class RunBomberman extends Application {
     public static List<Figure> enemy = new ArrayList<>();
     public static List<Entity> block = new ArrayList<>();
     public static Figure player;
-    public static char[][] objectMap;
+    public static char[][] objectMap; // Include: WALL, BRICK, PORTAL, BOMB, GRASS
+    public static int[][] killObject; // Bomb sau khi nổ thì lưu vết lửa vẫn còn ở đây.
 
     private GraphicsContext gc;
     private Canvas canvas;
