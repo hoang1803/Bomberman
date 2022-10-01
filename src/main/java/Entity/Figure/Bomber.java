@@ -33,10 +33,10 @@ public class Bomber extends Figure {
      */
     private boolean hasIntersect(int pos1, int pos2) {
         int esp = 5;
-        return (pos1 + Sprite.SCALED_SIZE - pos2 > 0 &&
-                pos1 + Sprite.SCALED_SIZE - pos2 <= esp) ||
-                (pos2 + Sprite.SCALED_SIZE - pos1 > 0 &&
-                        pos2 + Sprite.SCALED_SIZE - pos1 <= esp);
+        return (pos2 < pos1 + Sprite.SCALED_SIZE &&
+                    pos1 + Sprite.SCALED_SIZE < pos2 + Sprite.SCALED_SIZE) ||
+                (pos1 < pos2 + Sprite.SCALED_SIZE &&
+                        pos2 + Sprite.SCALED_SIZE < pos1 + Sprite.SCALED_SIZE);
     }
 
     private void checkEnemy() {
@@ -46,8 +46,18 @@ public class Bomber extends Figure {
             int fX = figure.getX();
             int fY = figure.getY();
 
+            if (fY == pY && hasIntersect(pX, fX)) {
+                isDead = true;
+                break;
+            }
+
+            if (fX == pX && hasIntersect(pY, fY)) {
+                isDead = true;
+                break;
+            }
+
             if (hasIntersect(pX, fX) && hasIntersect(pY, fY)) {
-                isDead= true;
+                isDead = true;
                 break;
             }
         }
