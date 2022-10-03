@@ -16,8 +16,12 @@ public class Bomber extends Figure {
 
     }
 
+    //Update
     public Bomber(int currentSpeed, int currentFrame, String direction, int life) {
         super(currentSpeed, currentFrame, direction, life);
+        super.setX(Sprite.SCALED_SIZE);
+        super.setY(Sprite.SCALED_SIZE);
+        super.setImage(Sprite.player_right.getFxImage());
     }
 
     public Bomber(int x, int y, Image img) {
