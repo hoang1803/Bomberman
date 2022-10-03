@@ -4,10 +4,18 @@ import Entity.Entity;
 import javafx.scene.image.Image;
 
 public abstract class Figure extends Entity {
+    public static final int DELAY_TIME = 4;
+    public static final int speed = 8;
+    public static final int DEFAULT_COUNT = 4;
     protected int currentSpeed;
     protected int currentFrame;
     protected String direction;
+    protected int step;
+    protected int count;
+    protected int delayTime;
     protected int life;
+
+
 
     public Figure() {
 
@@ -22,6 +30,8 @@ public abstract class Figure extends Entity {
         this.currentFrame = currentFrame;
         this.direction = direction;
         this.life = life;
+        this.count = 0;
+        this.delayTime = 0;
     }
 
     public void setCurrentFrame(int currentFrame) {
@@ -36,8 +46,20 @@ public abstract class Figure extends Entity {
         this.direction = direction;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setDelayTime(int delayTime) {
+        this.delayTime = delayTime;
+    }
+
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
     }
 
     public int getCurrentSpeed() {
@@ -52,8 +74,21 @@ public abstract class Figure extends Entity {
         return life;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public int getDelayTime() {
+        return delayTime;
+    }
+
+
     public String getDirection() {
         return direction;
+    }
+
+    public int getStep() {
+        return step;
     }
 
     @Override
