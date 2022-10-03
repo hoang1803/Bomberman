@@ -66,24 +66,17 @@ public class Map {
             e.printStackTrace();
         }
 
+        block.clear();
+
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
 
-                Entity entity;
-
-                switch (objectMap[y][x]) {
-                    case WALL:
-                        entity = new Wall(x, y, Sprite.wall.getFxImage());
-                        break;
-                    case BRICK:
-                        entity = new Brick(x, y, Sprite.brick.getFxImage());
-                        break;
-                    case PORTAL:
-                        entity = new Portal(x, y, Sprite.portal.getFxImage());
-                        break;
-                    default:
-                        entity = new Grass(x, y, Sprite.grass.getFxImage());
-                }
+                Entity entity = switch (objectMap[y][x]) {
+                    case WALL -> new Wall(x, y, Sprite.wall.getFxImage());
+                    case BRICK -> new Brick(x, y, Sprite.brick.getFxImage());
+                    case PORTAL -> new Portal(x, y, Sprite.portal.getFxImage());
+                    default -> new Grass(x, y, Sprite.grass.getFxImage());
+                };
 
                 block.add(entity);
             }
