@@ -15,6 +15,8 @@ public abstract class Figure extends Entity {
     protected int delayTime;
     protected int life;
 
+    protected int decreaseDelay = 0;
+
 
 
     public Figure() {
@@ -58,6 +60,10 @@ public abstract class Figure extends Entity {
         this.life = life;
     }
 
+    public void setDecreaseDelay(int decreaseDelay) {
+        this.decreaseDelay = decreaseDelay;
+    }
+
     public void setStep(int step) {
         this.step = step;
     }
@@ -89,6 +95,10 @@ public abstract class Figure extends Entity {
 
     public int getStep() {
         return step;
+    }
+
+    public int getDecreaseDelay() {
+        return decreaseDelay;
     }
 
     @Override
