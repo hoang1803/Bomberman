@@ -25,6 +25,9 @@ public class Bomb extends Entity {
     protected boolean hasExploded = false;
     protected static int bombStatic = 0; //0 no bomb  //1 had bomb  //-1 explosion
     protected static int bombNumber = 0; // chuyển sang quản lý lớp menu
+    public static final int default_range = 1; // Tầm nổ ban đầu
+    public static int range = 0; // Tầm nổ được cộng thêm của bom
+    private int currentFrame = 1;
     private static Entity bomb;
 
     private List<Entity> bombFlameHeight = new ArrayList<>(); // Vết lửa dọc
