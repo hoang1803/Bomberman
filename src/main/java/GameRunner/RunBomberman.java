@@ -97,7 +97,7 @@ public class RunBomberman extends Application {
         int delay = player.getDelayTime();
         if (delay == 0) {
            Move.figureRun(player);
-           delay = Figure.DELAY_TIME;
+           delay = Math.max(1, Figure.DELAY_TIME - player.getDecreaseDelay());
         }
         player.setDelayTime(delay - 1);
     }
