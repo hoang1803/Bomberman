@@ -18,8 +18,8 @@ public class Sprite {
      * Load pixel from spritePixel to pixels.
      */
     private void load() {
-        for(int y = 0; y < SIZE; y++) {
-            for(int x = 0; x < SIZE; x++) {
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
                 pixels[x + y * SIZE] = sheet.spritePixel[(x + this.x) + (y + this.y) * this.sheet.SIZE];
             }
         }
@@ -56,6 +56,9 @@ public class Sprite {
         this.pixels = new int[SIZE * SIZE];
         setColor(color);
     }
+
+    // This object creates transparent color in the outline of the interface.
+    public static Sprite transparent = new Sprite(ORIGINAL_SIZE, 15, 15, SpriteSheet.tiles, 16, 16);
 
     /*
     |--------------------------------------------------------------------------

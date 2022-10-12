@@ -1,38 +1,42 @@
 package Entity.Block;
 
+import Control.Blocked;
 import Entity.Entity;
-import Entity.Figure.Figure;
-import Graphics.Map;
 import Graphics.Sprite;
+
+import static Graphics.Map.BOMB_ITEM;
+import static Graphics.Map.GRASS;
 import static Graphics.Sprite.SCALED_SIZE;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import Sound.Sound;
 import javafx.scene.image.Image;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-
 import static GameRunner.RunBomberman.*;
 import static GameRunner.RunBomberman.player;
 
 public class Bomb extends Entity {
     protected static double timeToExplode = 120; //2 seconds
-    public int timeAfter = 20;
-    protected boolean hasExploded = false;
+    protected static double waitTime = 20;
     protected static int bombStatic = 0; //0 no bomb  //1 had bomb  //-1 explosion
-    protected static int bombNumber = 0; // chuyển sang quản lý lớp menu
-    public static final int default_range = 1; // Tầm nổ ban đầu
-    public static int range = 0; // Tầm nổ được cộng thêm của bom
-    private int currentFrame = 1;
+    protected static int swapActive = 1;
+    protected static int bombNumber = 20; // chuyen sang quan ly o lop control/menu
+    private static final List<Entity> listBombX = new ArrayList<>();
+    private static final List<Entity> listBombY = new ArrayList<>();
+    public static int range = 0; // bomb's extra explosive range
     private static Entity bomb;
-
-    private List<Entity> bombFlameHeight = new ArrayList<>(); // Vết lửa dọc
-    private List<Entity> bombFlameWidth = new ArrayList<>(); // Vết lửa ngang
-
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
+    public static final int UP = 2;
+    public static final int DOWN = 3;
+    // 0-left // 1-right // 2-up // 3-down
+    private static int[] bombPower = {0, 0, 0, 0};         // Bomb's destructive power
+    private static Entity[] edgeBlocked = new Entity[4];   // The edge of the block blocks the character from going through
+    private static boolean isEdge = false;     // Check if that edge exists
+    private static boolean isMiddle = true;   // Check if the bomb explodes in the center (plus sign, not T )
+    
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
 
@@ -40,7 +44,7 @@ public class Bomb extends Entity {
 
     public static void putBomb() {      // The function used for the bomber to place the bomb
         if (bombStatic == 0 && bombNumber > 0) {
-            new Sound("src/sound/....", "putBomb");
+            //new Sound("sound/put_bombs.wav", "putBomb");
             bombNumber--;
             bombStatic = 1;
             timeToExplode = System.currentTimeMillis();
@@ -50,41 +54,241 @@ public class Bomb extends Entity {
             y = Math.round((float) y);
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
             block.add(bomb);
-            objectMap[y][x] = Map.BOMB;
+            objectMap[x][y] = BOMB_ITEM;
+        }
+
+    }
+
+    public static void activeBomb() {   // Show the animation from the time the bomb is placed to the time it explodes
+        switch (swapActive) {
+            case 1: {
+                bomb.setImage(Sprite.bomb.getFxImage());
+                swapActive = 2;
+                break;
+            }
+            case 2: {
+                bomb.setImage(Sprite.bomb_1.getFxImage());
+                swapActive = 3;
+                break;
+            }
+            case 3: {
+                bomb.setImage(Sprite.bomb_2.getFxImage());
+                swapActive = 4;
+                break;
+            }
+            case 4:
+            {
+                bomb.setImage(Sprite.bomb_1.getFxImage());
+                swapActive = 1;
+                break;
+            }
+        }
+    }
+
+    public static void createEdge() {   // Create an edge to prevent the character's movement as well as the explosion range of the bomb
+        if (Blocked.blockDownBomb(bomb, 0)) {
+            edgeBlocked[DOWN] = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + 1, Sprite.bomb_exploded.getFxImage());
+            if (range > 0) {
+                for (int i = 1; i <= range && Blocked.blockDownBomb(bomb, i); ++i) {
+                    edgeBlocked[DOWN].setY(bomb.getY() + (i + 1) * SCALED_SIZE);
+                    ++bombPower[DOWN];
+                }
+            }
+            block.add(edgeBlocked[DOWN]);
+        }
+
+        if (Blocked.blockUpBomb(bomb, 0)) {
+            edgeBlocked[UP] = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - 1, Sprite.bomb_exploded.getFxImage());
+            if (range > 0) {
+                for (int i = 1; i <= range && Blocked.blockUpBomb(bomb, i); ++i) {
+                    edgeBlocked[UP].setY(bomb.getY() - (i + 1) * SCALED_SIZE);
+                    ++bombPower[UP];
+                }
+            }
+            block.add(edgeBlocked[UP]);
+        }
+
+        if (Blocked.blockLeftBomb(bomb, 0)) {
+            edgeBlocked[LEFT] = new Bomb(bomb.getX() / SCALED_SIZE - 1, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+            if (range > 0) {
+                for (int i = 1; i <= range && Blocked.blockLeftBomb(bomb, i); ++i) {
+                    edgeBlocked[LEFT].setX(bomb.getX() - (i + 1) * SCALED_SIZE);
+                    ++bombPower[LEFT];
+                }
+            }
+            block.add(edgeBlocked[LEFT]);
+        }
+
+        if (Blocked.blockRightBomb(bomb, 0)) {
+            edgeBlocked[RIGHT] = new Bomb(bomb.getX() / SCALED_SIZE + 1, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+            if (range > 0) {
+                for (int i = 1; i <= range && Blocked.blockRightBomb(bomb, i); ++i) {
+                    edgeBlocked[RIGHT].setX(bomb.getX() + (i + 1) * SCALED_SIZE);
+                    ++bombPower[RIGHT];
+                }
+            }
+            block.add(edgeBlocked[RIGHT]);
+        }
+
+    }
+
+    public static void createMiddle() {     // Adjust the bomb to explode at the center position
+        Entity middle;
+        for (int i = 1; i <= bombPower[DOWN]; i++) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + i, Sprite.bomb_exploded.getFxImage());
+            listBombY.add(middle);
+        }
+
+        for (int i = 1; i <= bombPower[UP]; i++) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - i, Sprite.bomb_exploded.getFxImage());
+            listBombY.add(middle);
+        }
+
+        for (int i = 1; i <= bombPower[LEFT]; i++) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE - i, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+            listBombX.add(middle);
+        }
+
+        for (int i = 1; i <= bombPower[RIGHT]; i++) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE + i, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+            listBombX.add(middle);
+        }
+        block.addAll(listBombX);
+        block.addAll(listBombY);
+    }
+
+    public static void explosionCenter() {      // Determine the explosion center of the bomb
+            bomb.setImage(Sprite.bomb_exploded.getFxImage());
+            killObject[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 4;
+            if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
+                edgeBlocked[DOWN].setImage(Sprite.explosion_vertical_down_last.getFxImage());
+                killObject[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = 4;
+            }
+
+            if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
+                edgeBlocked[UP].setImage(Sprite.explosion_vertical_top_last.getFxImage());
+                killObject[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = 4;
+            }
+
+            if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
+                edgeBlocked[LEFT].setImage(Sprite.explosion_horizontal_left_last.getFxImage());
+                killObject[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = 4;
+            }
+
+            if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
+                edgeBlocked[RIGHT].setImage(Sprite.explosion_horizontal_right_last.getFxImage());
+                killObject[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = 4;
+            }
+
+            if (listBombY.size() > 0) {
+                for (Entity e : listBombY) {
+                    e.setImage(Sprite.explosion_vertical.getFxImage());
+                    killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 4;
+                }
+            }
+
+            if (listBombX.size() > 0) {
+                for (Entity e : listBombX) {
+                    e.setImage(Sprite.explosion_horizontal.getFxImage());
+                    killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 4;
+                }
+            }
+    }
+
+    private static void checkActive() {     // Check what stages the bomb has gone through before detonating
+        if (bombStatic == 1) {
+            if (System.currentTimeMillis() - timeToExplode < 2000L) {
+                if (System.currentTimeMillis() - waitTime > 100L) {
+                    activeBomb();
+                    waitTime += 100L;
+                }
+            }
+            else {
+                bombStatic = -1;
+                timeToExplode = System.currentTimeMillis();
+                waitTime = timeToExplode;
+            }
+        }
+
+    }
+
+    private static void checkExplosion() {      // Check the bomb's detonation time after the bomb is activated
+        if (bombStatic == -1) {
+            if (System.currentTimeMillis() - timeToExplode < 1000L) {
+                if (System.currentTimeMillis() - waitTime > 100L) {
+                    if (!isEdge) {
+                        createEdge();
+                        isEdge = true;
+                    }
+
+                    if (range > 0 && !isMiddle) {
+                        createMiddle();
+                        isMiddle = true;
+                    }
+
+                    //new Sound("sound/bomb_explosion.wav", "explosion");
+                    explosionCenter();
+                    waitTime += 100L;
+                }
+            }
+            else {
+                bombStatic = 0;
+                objectMap[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = GRASS;
+                killObject[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 0;
+                bomb.setImage(Sprite.transparent.getFxImage());
+                if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
+                    edgeBlocked[DOWN].setImage(Sprite.transparent.getFxImage());
+                    objectMap[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = 0;
+                }
+
+                if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
+                    edgeBlocked[UP].setImage(Sprite.transparent.getFxImage());
+                    objectMap[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = 0;
+                }
+
+                if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
+                    edgeBlocked[LEFT].setImage(Sprite.transparent.getFxImage());
+                    objectMap[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = 0;
+                }
+
+                if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
+                    edgeBlocked[RIGHT].setImage(Sprite.transparent.getFxImage());
+                    objectMap[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = 0;
+                }
+
+                if (isMiddle) {
+                    for (Entity e : listBombX) {
+                        killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
+                        objectMap[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = GRASS;
+                    }
+                    for (Entity e : listBombY) {
+                        killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
+                        objectMap[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = GRASS;
+                    }
+                }
+
+                block.removeAll(listBombY);
+                block.removeAll(listBombX);
+                listBombY.clear();
+                listBombX.clear();
+                isEdge = false;
+                isMiddle = false;
+                bombPower[DOWN] = 0;
+                bombPower[UP] = 0;
+                bombPower[LEFT] = 0;
+                bombPower[RIGHT] = 0;
+            }
         }
 
     }
 
     @Override
     public void update() {
-        if(timeToExplode > 0) {
-            timeToExplode--;
-
-            //renderBomb
-        }
-        else {
-            if (!hasExploded) {
-                explode();
-                objectMap[y][x] = ' ';
-            } else
-                updateFlames();
-
-            if (timeAfter > 0)
-                timeAfter--;
-        }
+        checkActive();
+        checkExplosion();
     }
-
-    public void renderFlames() {
-
-    }
-
-    public void updateFlames() {
-
-    }
-
-    public void explode() {
-        Sound music = new Sound("explosion", "explosion");
-
-    }
-
 }

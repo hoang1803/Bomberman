@@ -1,6 +1,7 @@
 package GameRunner;
 
 import Control.Move;
+import Entity.Block.Bomb;
 import Entity.Block.Grass;
 import Entity.Block.Wall;
 import Entity.Entity;
@@ -65,6 +66,7 @@ public class RunBomberman extends Application {
                     case DOWN -> Move.moveDown(player);
                     case LEFT -> Move.moveLeft(player);
                     case RIGHT -> Move.moveRight(player);
+                    case SPACE -> Bomb.putBomb();
                 }
             }
         });
@@ -73,15 +75,15 @@ public class RunBomberman extends Application {
         primaryStage.setScene(scene);
         stage = primaryStage;
         stage.show();
-
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(running) {
+                if (running) {
                     render();
-                    if(!isPause) {
+                    if(!isPause){
                         update();
                     }
+                    update();
                 }
             }
         };

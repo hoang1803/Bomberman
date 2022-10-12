@@ -8,7 +8,6 @@ import Entity.Entity;
 import GameRunner.RunBomberman;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Map {
     public static final char WALL = '#';
     public static final char BRICK = '*';
     public static final char PORTAL = 'x';
-
+    public static final char GRASS = '.';
     public static final char BOMB = 'z';
 
     public static final char PLAYER = 'p';
