@@ -44,7 +44,7 @@ public class Move {
 
     }
 
-    private static boolean hasBlock(char current) {
+    public static boolean hasBlock(char current) {
         return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB);
     }
 
