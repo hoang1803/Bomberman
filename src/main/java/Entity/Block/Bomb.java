@@ -54,7 +54,7 @@ public class Bomb extends Entity {
             y = Math.round((float) y);
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
             block.add(bomb);
-            objectMap[x][y] = BOMB_ITEM;
+            objectMap[y][x] = BOMB_ITEM;
         }
 
     }
@@ -159,38 +159,38 @@ public class Bomb extends Entity {
 
     public static void explosionCenter() {      // Determine the explosion center of the bomb
             bomb.setImage(Sprite.bomb_exploded.getFxImage());
-            killObject[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 4;
+            killObject[bomb.getY() / SCALED_SIZE][bomb.getX() / SCALED_SIZE] = 4;
             if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
                 edgeBlocked[DOWN].setImage(Sprite.explosion_vertical_down_last.getFxImage());
-                killObject[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = 4;
+                killObject[edgeBlocked[DOWN].getY() / SCALED_SIZE][edgeBlocked[DOWN].getX() / SCALED_SIZE] = 4;
             }
 
             if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
                 edgeBlocked[UP].setImage(Sprite.explosion_vertical_top_last.getFxImage());
-                killObject[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = 4;
+                killObject[edgeBlocked[UP].getY() / SCALED_SIZE][edgeBlocked[UP].getX() / SCALED_SIZE] = 4;
             }
 
             if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
                 edgeBlocked[LEFT].setImage(Sprite.explosion_horizontal_left_last.getFxImage());
-                killObject[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = 4;
+                killObject[edgeBlocked[LEFT].getY() / SCALED_SIZE][edgeBlocked[LEFT].getX() / SCALED_SIZE] = 4;
             }
 
             if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
                 edgeBlocked[RIGHT].setImage(Sprite.explosion_horizontal_right_last.getFxImage());
-                killObject[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = 4;
+                killObject[edgeBlocked[RIGHT].getY() / SCALED_SIZE][edgeBlocked[RIGHT].getX() / SCALED_SIZE] = 4;
             }
 
             if (listBombY.size() > 0) {
                 for (Entity e : listBombY) {
                     e.setImage(Sprite.explosion_vertical.getFxImage());
-                    killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 4;
+                    killObject[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = 4;
                 }
             }
 
             if (listBombX.size() > 0) {
                 for (Entity e : listBombX) {
                     e.setImage(Sprite.explosion_horizontal.getFxImage());
-                    killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 4;
+                    killObject[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = 4;
                 }
             }
     }
@@ -233,41 +233,41 @@ public class Bomb extends Entity {
             }
             else {
                 bombStatic = 0;
-                objectMap[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = GRASS;
-                killObject[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 0;
+                objectMap[bomb.getY() / SCALED_SIZE][bomb.getX() / SCALED_SIZE] = GRASS;
+                killObject[bomb.getY() / SCALED_SIZE][bomb.getX() / SCALED_SIZE] = 0;
                 bomb.setImage(Sprite.transparent.getFxImage());
                 if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
                     edgeBlocked[DOWN].setImage(Sprite.transparent.getFxImage());
-                    objectMap[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = GRASS;
-                    killObject[edgeBlocked[DOWN].getX() / SCALED_SIZE][edgeBlocked[DOWN].getY() / SCALED_SIZE] = 0;
+                    objectMap[edgeBlocked[DOWN].getY() / SCALED_SIZE][edgeBlocked[DOWN].getX() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[DOWN].getY() / SCALED_SIZE][edgeBlocked[DOWN].getX() / SCALED_SIZE] = 0;
                 }
 
                 if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
                     edgeBlocked[UP].setImage(Sprite.transparent.getFxImage());
-                    objectMap[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = GRASS;
-                    killObject[edgeBlocked[UP].getX() / SCALED_SIZE][edgeBlocked[UP].getY() / SCALED_SIZE] = 0;
+                    objectMap[edgeBlocked[UP].getY() / SCALED_SIZE][edgeBlocked[UP].getX() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[UP].getY() / SCALED_SIZE][edgeBlocked[UP].getX() / SCALED_SIZE] = 0;
                 }
 
                 if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
                     edgeBlocked[LEFT].setImage(Sprite.transparent.getFxImage());
-                    objectMap[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = GRASS;
-                    killObject[edgeBlocked[LEFT].getX() / SCALED_SIZE][edgeBlocked[LEFT].getY() / SCALED_SIZE] = 0;
+                    objectMap[edgeBlocked[LEFT].getY() / SCALED_SIZE][edgeBlocked[LEFT].getX() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[LEFT].getY() / SCALED_SIZE][edgeBlocked[LEFT].getX() / SCALED_SIZE] = 0;
                 }
 
                 if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
                     edgeBlocked[RIGHT].setImage(Sprite.transparent.getFxImage());
-                    objectMap[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = GRASS;
-                    killObject[edgeBlocked[RIGHT].getX() / SCALED_SIZE][edgeBlocked[RIGHT].getY() / SCALED_SIZE] = 0;
+                    objectMap[edgeBlocked[RIGHT].getY() / SCALED_SIZE][edgeBlocked[RIGHT].getX() / SCALED_SIZE] = GRASS;
+                    killObject[edgeBlocked[RIGHT].getY() / SCALED_SIZE][edgeBlocked[RIGHT].getX() / SCALED_SIZE] = 0;
                 }
 
                 if (isMiddle) {
                     for (Entity e : listBombX) {
-                        killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
-                        objectMap[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = GRASS;
+                        killObject[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = 0;
+                        objectMap[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = GRASS;
                     }
                     for (Entity e : listBombY) {
-                        killObject[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
-                        objectMap[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = GRASS;
+                        killObject[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = 0;
+                        objectMap[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = GRASS;
                     }
                 }
 
