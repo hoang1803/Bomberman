@@ -5,7 +5,6 @@ import Entity.Figure.Figure;
 import Graphics.Sprite;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static GameRunner.RunBomberman.*;
@@ -165,6 +164,13 @@ public class AStar {
         return figure.getDirection();
     }
 
+    /**
+     * Find direction from figure to player.
+     * @param figure figure
+     * @param width width
+     * @param height height
+     * @return direction
+     */
     public static String findDirection(Figure figure, int width, int height) {
         AStar aStar = new AStar(width, height);
         int row = figure.getY() / Sprite.SCALED_SIZE;
