@@ -1,5 +1,6 @@
 package Control;
 
+import Entity.Figure.Balloom;
 import Entity.Figure.Bomber;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
@@ -7,12 +8,14 @@ import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
+import java.sql.Time;
 import java.util.Objects;
+import java.util.Timer;
 
 import static Graphics.Sprite.SCALED_SIZE;
+import static Graphics.Sprite.balloom_left1;
 
 public class Move {
-
     public static void figureRun(Figure figure) {
         int count = figure.getCount();
         if(count > 0) {
@@ -40,8 +43,38 @@ public class Move {
                 figure.setX(figure.getX() + step);
             }
         }
+    }
 
+    public static void transBalloomDirection(Figure figure) {
+        if (figure instanceof Balloom) {
+            if (figure.isTransDirection()) {
+                figure.setTransDirection(false);
+                String newDirection = (figure.getDirection().equals("right")) ? "left" : "right";
+                figure.setDirection(newDirection);
+            }
+        }
+    }
 
+    public static void moveBalloom(Figure figure) {
+        if (figure.getLife() < 0) {
+            return;
+        }
+        setDirection(figure);
+        switch(figure.getDirection()) {
+            case "up" -> {
+                moveUp(figure);
+            }
+            case "down" -> {
+                moveDown(figure);
+            }
+            case "left" -> {
+                moveLeft(figure);
+            }
+            case "right" -> {
+                moveRight(figure);
+            }
+        }
+        transBalloomDirection(figure);
     }
 
     public static boolean hasBlock(char current) {
@@ -71,8 +104,8 @@ public class Move {
                 speed = figure.getY() - (realY + SCALED_SIZE);
             }
             figure.setDirection("up");
-            figure.setStep(speed / Figure.DEFAULT_COUNT);
-            figure.setCount(Figure.DEFAULT_COUNT);
+            figure.setStep(speed / figure.getDefaultCount());
+            figure.setCount(figure.getDefaultCount());
         }
     }
 
@@ -98,8 +131,8 @@ public class Move {
                 speed = (realY - 1) - (figure.getY() + SCALED_SIZE - 1);
             }
             figure.setDirection("down");
-            figure.setStep(speed / Figure.DEFAULT_COUNT);
-            figure.setCount(Figure.DEFAULT_COUNT);
+            figure.setStep(speed / figure.getDefaultCount());
+            figure.setCount(figure.getDefaultCount());
         }
     }
 
@@ -108,26 +141,30 @@ public class Move {
             Sprite.renderSpriteForBomber(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, figure);
         }
 
+        if (figure instanceof Balloom) {
+            Sprite.renderSpriteForBalloom(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, figure);
+        }
         // Write code here
     }
 
     public static void moveLeft(Figure figure) {
-        if(figure.getCount() == 0) {
+        if(figure.getCount() == 0 || figure instanceof Balloom) {
             int speed = figure.getCurrentSpeed();
             int y = figure.getY() / SCALED_SIZE;
             int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
             int x = (figure.getX() - speed) / SCALED_SIZE;
             char cur = RunBomberman.objectMap[y][x];
             char cur2 = RunBomberman.objectMap[py][x];
-
             if (hasBlock(cur) || hasBlock(cur2)) {
                 int realX = x * SCALED_SIZE;
                 speed = figure.getX() - (realX + SCALED_SIZE);
+                if (figure instanceof Balloom) {
+                    figure.setTransDirection(true);
+                }
             }
-
             figure.setDirection("left");
-            figure.setStep(speed / Figure.DEFAULT_COUNT);
-            figure.setCount(Figure.DEFAULT_COUNT);
+            figure.setStep(speed / figure.getDefaultCount());
+            figure.setCount(figure.getDefaultCount());
         }
     }
 
@@ -135,27 +172,30 @@ public class Move {
         if (figure instanceof Bomber) {
             Sprite.renderSpriteForBomber(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, figure);
         }
-
+        if (figure instanceof Balloom) {
+            Sprite.renderSpriteForBalloom(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
+        }
         // Write code here
     }
 
     public static void moveRight(Figure figure) {
-        if(figure.getCount() == 0) {
+        if(figure.getCount() == 0 || figure instanceof Balloom) {
             int speed = figure.getCurrentSpeed();
             int y = figure.getY() / SCALED_SIZE;
             int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
             int x = (figure.getX() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
             char cur = RunBomberman.objectMap[y][x];
             char cur2 = RunBomberman.objectMap[py][x];
-
             if (hasBlock(cur) || hasBlock(cur2)) {
                 int realX = x * SCALED_SIZE;
                 speed = (realX - 1) - (figure.getX() + SCALED_SIZE - 1);
+                if (figure instanceof Balloom) {
+                    figure.setTransDirection(true);
+                }
             }
-
             figure.setDirection("right");
-            figure.setStep(speed / Figure.DEFAULT_COUNT);
-            figure.setCount(Figure.DEFAULT_COUNT);
+            figure.setStep(speed / figure.getDefaultCount());
+            figure.setCount(figure.getDefaultCount());
         }
     }
 }

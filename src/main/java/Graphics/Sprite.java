@@ -308,6 +308,23 @@ public class Sprite {
         }
     }
 
+    public static void renderSpriteForBalloom(Sprite firstFrame, Sprite secondFrame, Sprite thirdFrame, Figure figure) {
+        int curFrame = figure.getCurrentFrame();
+        if (curFrame == 1) {
+            figure.setImage(firstFrame.getFxImage());
+            figure.setCurrentFrame(2);
+        } else if (curFrame == 2) {
+            figure.setImage(secondFrame.getFxImage());
+            figure.setCurrentFrame(3);
+        } else if (curFrame == 3) {
+            figure.setImage(thirdFrame.getFxImage());
+            figure.setCurrentFrame(4);
+        } else {
+            figure.setImage(firstFrame.getFxImage());
+            figure.setCurrentFrame(1);
+        }
+    }
+
     public static void renderSpriteForBomber(Sprite normal, Sprite firstFrame, Sprite secondFrame, Figure figure) {
         int curFrame = figure.getCurrentFrame();
         if (curFrame == 1) {

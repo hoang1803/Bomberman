@@ -5,6 +5,8 @@ import Entity.Block.Grass;
 import Entity.Block.Portal;
 import Entity.Block.Wall;
 import Entity.Entity;
+import Entity.Figure.Balloom;
+import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 
 import java.io.File;
@@ -66,6 +68,7 @@ public class Map {
         }
 
         block.clear();
+        enemy.clear();
 
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
@@ -76,8 +79,17 @@ public class Map {
                     case PORTAL -> new Portal(x, y, Sprite.portal.getFxImage());
                     default -> new Grass(x, y, Sprite.grass.getFxImage());
                 };
-
                 block.add(entity);
+
+                Figure figure = switch (objectMap[y][x]) {
+                    case BALLOON -> new Balloom(Figure.speed * 2, 1, 15, "left", 1);
+                    default -> null;
+                };
+                if (figure != null)  {
+                    figure.setX(x * Sprite.SCALED_SIZE);
+                    figure.setY(y * Sprite.SCALED_SIZE);
+                    enemy.add(figure);
+                }
             }
         }
 

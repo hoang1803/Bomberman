@@ -4,9 +4,10 @@ import Entity.Entity;
 import javafx.scene.image.Image;
 
 public abstract class Figure extends Entity {
-    public static final int DELAY_TIME = 4;
+    protected int defaultDelayTime = 4;
     public static final int speed = 8;
-    public static final int DEFAULT_COUNT = 4;
+
+    protected int defaultCount;
     protected int currentSpeed;
     protected int currentFrame;
     protected String direction;
@@ -16,6 +17,8 @@ public abstract class Figure extends Entity {
     protected int life;
 
     protected int decreaseDelay = 0;
+
+    protected boolean transDirection = false;
 
 
 
@@ -27,13 +30,22 @@ public abstract class Figure extends Entity {
         super(x, y, image);
     }
 
-    public Figure(int currentSpeed, int currentFrame, String direction, int life) {
+    public Figure(int currentSpeed, int currentFrame, int defaultDelayTime, String direction, int life) {
         this.currentSpeed = currentSpeed;
         this.currentFrame = currentFrame;
+        this.defaultDelayTime = defaultDelayTime;
         this.direction = direction;
         this.life = life;
         this.count = 0;
         this.delayTime = 0;
+    }
+
+    public void setDefaultCount(int defaultCount) {
+        this.defaultCount = defaultCount;
+    }
+
+    public int getDefaultCount() {
+        return defaultCount;
     }
 
     public void setCurrentFrame(int currentFrame) {
@@ -99,6 +111,22 @@ public abstract class Figure extends Entity {
 
     public int getDecreaseDelay() {
         return decreaseDelay;
+    }
+
+    public void setTransDirection(boolean transDirection) {
+        this.transDirection = transDirection;
+    }
+    public boolean isTransDirection() {
+        return transDirection;
+    }
+
+    public boolean canGo() {
+        if (delayTime == 0) {
+            delayTime = Math.max(1, defaultDelayTime - decreaseDelay);
+            return true;
+        }
+        delayTime--;
+        return false;
     }
 
     @Override

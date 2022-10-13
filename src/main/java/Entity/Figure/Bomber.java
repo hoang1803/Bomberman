@@ -17,11 +17,12 @@ public class Bomber extends Figure {
     }
 
     //Update
-    public Bomber(int currentSpeed, int currentFrame, String direction, int life) {
-        super(currentSpeed, currentFrame, direction, life);
+    public Bomber(int currentSpeed, int currentFrame, int defaultDelayTime, String direction, int life) {
+        super(currentSpeed, currentFrame, defaultDelayTime, direction, life);
         super.setX(Sprite.SCALED_SIZE);
         super.setY(Sprite.SCALED_SIZE);
         super.setImage(Sprite.player_right.getFxImage());
+        super.setDefaultCount(4);
     }
 
     public Bomber(int x, int y, Image img) {
@@ -65,6 +66,9 @@ public class Bomber extends Figure {
         int pX = player.getX();
         int pY = player.getY();
         for(Figure figure : enemy) {
+            if (figure.getLife() <= 0) {
+                continue;
+            }
             int fX = figure.getX();
             int fY = figure.getY();
 

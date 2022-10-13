@@ -5,6 +5,7 @@ import Entity.Block.Bomb;
 import Entity.Block.Grass;
 import Entity.Block.Wall;
 import Entity.Entity;
+import Entity.Figure.Balloom;
 import Entity.Figure.Bomber;
 import Entity.Figure.Figure;
 import Graphics.Map;
@@ -70,7 +71,6 @@ public class RunBomberman extends Application {
                 }
             }
         });
-
         primaryStage.setTitle("Bomberman");
         primaryStage.setScene(scene);
         stage = primaryStage;
@@ -88,25 +88,33 @@ public class RunBomberman extends Application {
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2,"right", 3);
-
+        player = new Bomber(Figure.speed * 4, 2, 4,"right", 10);
     }
 
     public void update() {
         block.forEach(Entity::update);
         player.update();
-
-        int delay = player.getDelayTime();
-        if (delay == 0) {
-           Move.figureRun(player);
-           delay = Math.max(1, Figure.DELAY_TIME - player.getDecreaseDelay());
+        enemy.forEach(Figure::update);
+        for (Figure figure: enemy) {
+            if (figure.getLife() >= 0 || (!figure.canGo()))
+                figure.update();
+            else enemy.remove(figure);
         }
-        player.setDelayTime(delay - 1);
+        if (player.canGo()) {
+            Move.figureRun(player);
+        }
+
+        for (Figure figure: enemy) {
+            if (figure.canGo()) {
+                Move.moveBalloom(figure);
+            }
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         block.forEach(g -> g.render(gc));
+        enemy.forEach(g -> g.render(gc));
         player.render(gc);
     }
 }
