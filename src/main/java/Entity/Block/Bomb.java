@@ -21,7 +21,6 @@ public class Bomb extends Entity {
     protected static double timeToExplode = 120; //2 seconds
     protected static double waitTime = 20;
     protected static int bombStatic = 0; //0 no bomb  //1 had bomb  //-1 explosion
-    protected static int swapActive = 1;
     protected static int bombNumber = 20; // chuyen sang quan ly o lop control/menu
     private static final List<Entity> listBombX = new ArrayList<>();
     private static final List<Entity> listBombY = new ArrayList<>();
@@ -36,7 +35,8 @@ public class Bomb extends Entity {
     private static Entity[] edgeBlocked = new Entity[4];   // The edge of the block blocks the character from going through
     private static boolean isEdge = false;     // Check if that edge exists
     private static boolean isMiddle = true;   // Check if the bomb explodes in the center (plus sign, not T )
-    
+    private static int swapExplosion = 1;     // Show flame's animation
+
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
 
@@ -48,41 +48,17 @@ public class Bomb extends Entity {
             bombNumber--;
             bombStatic = 1;
             timeToExplode = System.currentTimeMillis();
+            waitTime = timeToExplode;
             int x = player.getX() / SCALED_SIZE;
             int y = player.getY() / SCALED_SIZE;
             x = Math.round((float) x);
             y = Math.round((float) y);
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
+            bomb.setCurrentFrame(1);
             block.add(bomb);
             objectMap[y][x] = BOMB_ITEM;
         }
 
-    }
-
-    public static void activeBomb() {   // Show the animation from the time the bomb is placed to the time it explodes
-        switch (swapActive) {
-            case 1: {
-                bomb.setImage(Sprite.bomb.getFxImage());
-                swapActive = 2;
-                break;
-            }
-            case 2: {
-                bomb.setImage(Sprite.bomb_1.getFxImage());
-                swapActive = 3;
-                break;
-            }
-            case 3: {
-                bomb.setImage(Sprite.bomb_2.getFxImage());
-                swapActive = 4;
-                break;
-            }
-            case 4:
-            {
-                bomb.setImage(Sprite.bomb_1.getFxImage());
-                swapActive = 1;
-                break;
-            }
-        }
     }
 
     public static void createEdge() {   // Create an edge to prevent the character's movement as well as the explosion range of the bomb
@@ -158,6 +134,7 @@ public class Bomb extends Entity {
     }
 
     public static void explosionCenter() {      // Determine the explosion center of the bomb
+        if (swapExplosion == 1) {
             bomb.setImage(Sprite.bomb_exploded.getFxImage());
             killObject[bomb.getY() / SCALED_SIZE][bomb.getX() / SCALED_SIZE] = 4;
             if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
@@ -193,13 +170,71 @@ public class Bomb extends Entity {
                     killObject[e.getY() / SCALED_SIZE][e.getX() / SCALED_SIZE] = 4;
                 }
             }
+            swapExplosion = 2;
+        } else if (swapExplosion == 2) {
+            bomb.setImage(Sprite.bomb_exploded1.getFxImage());
+            if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
+                edgeBlocked[DOWN].setImage(Sprite.explosion_vertical_down_last1.getFxImage());
+            }
+
+            if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
+                edgeBlocked[UP].setImage(Sprite.explosion_vertical_top_last1.getFxImage());
+            }
+
+            if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
+                edgeBlocked[LEFT].setImage(Sprite.explosion_horizontal_left_last1.getFxImage());
+            }
+
+            if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
+                edgeBlocked[RIGHT].setImage(Sprite.explosion_horizontal_right_last1.getFxImage());
+            }
+
+            if (isMiddle) {
+                for (Entity e : listBombY) {
+                    e.setImage(Sprite.explosion_vertical1.getFxImage());
+                }
+                for (Entity e : listBombX) {
+                    e.setImage(Sprite.explosion_horizontal1.getFxImage());
+                }
+            }
+            swapExplosion = 3;
+        }
+        else if (swapExplosion == 3) {
+            bomb.setImage(Sprite.bomb_exploded2.getFxImage());
+            if (Blocked.blockDownBomb(bomb, bombPower[DOWN])) {
+                edgeBlocked[DOWN].setImage(Sprite.explosion_vertical_down_last2.getFxImage());
+            }
+
+            if (Blocked.blockUpBomb(bomb, bombPower[UP])) {
+                edgeBlocked[UP].setImage(Sprite.explosion_vertical_top_last2.getFxImage());
+            }
+
+            if (Blocked.blockLeftBomb(bomb, bombPower[LEFT])) {
+                edgeBlocked[LEFT].setImage(Sprite.explosion_horizontal_left_last2.getFxImage());
+            }
+
+            if (Blocked.blockRightBomb(bomb, bombPower[RIGHT])) {
+                edgeBlocked[RIGHT].setImage(Sprite.explosion_horizontal_right_last2.getFxImage());
+            }
+
+            if (isMiddle) {
+                for (Entity e : listBombY) {
+                    e.setImage(Sprite.explosion_vertical2.getFxImage());
+                }
+                for (Entity e : listBombX) {
+                    e.setImage(Sprite.explosion_horizontal2.getFxImage());
+                }
+            }
+            swapExplosion = 1;
+        }
+
     }
 
     private static void checkActive() {     // Check what stages the bomb has gone through before detonating
         if (bombStatic == 1) {
             if (System.currentTimeMillis() - timeToExplode < 2000L) {
                 if (System.currentTimeMillis() - waitTime > 100L) {
-                    activeBomb();
+                    Sprite.renderSpriteBomb(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, bomb);
                     waitTime += 100L;
                 }
             }

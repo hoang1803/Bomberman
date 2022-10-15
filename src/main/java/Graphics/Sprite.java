@@ -1,5 +1,6 @@
 package Graphics;
 
+import Entity.Entity;
 import Entity.Figure.Figure;
 import javafx.scene.image.*;
 
@@ -305,6 +306,23 @@ public class Sprite {
         } else {
             figure.setImage(firstFrame.getFxImage());
             figure.setCurrentFrame(1);
+        }
+    }
+
+    public static void renderSpriteBomb(Sprite normal, Sprite firstFrame, Sprite secondFrame, Entity entity) {
+        int curFrame = entity.getCurrentFrame();
+        if (curFrame == 1) {
+            entity.setImage(normal.getFxImage());
+            entity.setCurrentFrame(2);
+        } else if (curFrame == 2) {
+            entity.setImage(firstFrame.getFxImage());
+            entity.setCurrentFrame(3);
+        } else if (curFrame == 3) {
+            entity.setImage(secondFrame.getFxImage());
+            entity.setCurrentFrame(4);
+        } else {
+            entity.setImage(firstFrame.getFxImage());
+            entity.setCurrentFrame(1);
         }
     }
 

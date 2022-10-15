@@ -11,7 +11,7 @@ public abstract class Entity{
     protected int x;
     protected int y;
     protected Image image;
-
+    protected int currentFrame;
     /**
      * Constructor 1.
      */
@@ -59,7 +59,11 @@ public abstract class Entity{
         this.image = image;
     }
 
-
-
-    public abstract void update();
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+        public abstract void update();
 }
