@@ -4,7 +4,7 @@ import Control.Blocked;
 import Entity.Entity;
 import Graphics.Sprite;
 
-import static Graphics.Map.BOMB_ITEM;
+import static Graphics.Map.BOMB;
 import static Graphics.Map.GRASS;
 import static Graphics.Sprite.SCALED_SIZE;
 
@@ -56,7 +56,7 @@ public class Bomb extends Entity {
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
             bomb.setCurrentFrame(1);
             block.add(bomb);
-            objectMap[y][x] = BOMB_ITEM;
+            objectMap[y][x] = BOMB;
         }
 
     }
