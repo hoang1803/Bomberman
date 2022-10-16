@@ -43,7 +43,7 @@ public class Move {
                         moveRight(figure);
                     }
                 }
-                ((Balloom) figure).transDirection();
+                ((Balloom) figure).autoTransDirection();
                 setDirection(figure);
             }
         }
