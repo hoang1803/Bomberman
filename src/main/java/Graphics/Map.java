@@ -82,7 +82,7 @@ public class Map {
                 block.add(entity);
 
                 Figure figure = switch (objectMap[y][x]) {
-                    case BALLOON -> new Balloom(Figure.speed * 2, 1, 15, "left", 1);
+                    case BALLOON -> new Balloom(4, 1, 15, "up", 1);
                     default -> null;
                 };
                 if (figure != null)  {
