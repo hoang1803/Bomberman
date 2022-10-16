@@ -12,9 +12,7 @@ import static GameRunner.RunBomberman.*;
 public class Balloom extends Figure {
     public int deadFrame = 1;
     private int countDead = 0;
-
-    private boolean transDirect = false;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     private int timeLeft = 0;
 
@@ -41,15 +39,15 @@ public class Balloom extends Figure {
         }
     }
 
-    public void transDirection() {
+    public void autoTransDirection() {
         timeLeft--;
         int pX = x / Sprite.SCALED_SIZE;
         int pY = y / Sprite.SCALED_SIZE;
 
-        if (transDirect || pX * Sprite.SCALED_SIZE == x && pY * Sprite.SCALED_SIZE == y) {
+        if (this.transDirection || pX * Sprite.SCALED_SIZE == x && pY * Sprite.SCALED_SIZE == y) {
 
-            if (transDirect || timeLeft <= 0) {
-                timeLeft = rand.nextInt(8) * 4;
+            if (this.transDirection || timeLeft <= 0) {
+                timeLeft = rand.nextInt(20) * 4;
             } else {
                 return;
             }
@@ -109,7 +107,6 @@ public class Balloom extends Figure {
 
                 }
             }
-            System.out.println(direction);
         }
     }
 
