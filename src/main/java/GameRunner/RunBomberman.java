@@ -88,7 +88,7 @@ public class RunBomberman extends Application {
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 4,"right", 10);
+        player = new Bomber(Figure.speed * 4, 2, 4,"right", 10000000);
     }
 
     public void update() {
@@ -106,7 +106,7 @@ public class RunBomberman extends Application {
 
         for (Figure figure: enemy) {
             if (figure.canGo()) {
-                Move.moveBalloom(figure);
+                Move.figureRun(figure);
             }
         }
     }
