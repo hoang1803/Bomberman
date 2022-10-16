@@ -1,6 +1,5 @@
 package Entity.Figure;
 
-import GameRunner.RunBomberman;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -10,13 +9,11 @@ import static GameRunner.RunBomberman.player;
 public class Bomber extends Figure {
     public int deadFrame = 1;
     private int countDead = 0;
-    private boolean isDead = false;
 
     public Bomber() {
 
     }
 
-    //Update
     public Bomber(int currentSpeed, int currentFrame, int defaultDelayTime, String direction, int life) {
         super(currentSpeed, currentFrame, defaultDelayTime, direction, life);
         super.setX(Sprite.SCALED_SIZE);
@@ -29,8 +26,8 @@ public class Bomber extends Figure {
         super(x, y, img);
     }
 
-    private void killBomber(Figure figure) {
-        //Write code here
+    @Override
+    protected void kill() {
 
     }
 
@@ -43,23 +40,6 @@ public class Bomber extends Figure {
                     pos1 + Sprite.SCALED_SIZE < pos2 + Sprite.SCALED_SIZE) ||
                 (pos1 < pos2 + Sprite.SCALED_SIZE &&
                         pos2 + Sprite.SCALED_SIZE < pos1 + Sprite.SCALED_SIZE);
-    }
-
-    private void checkBomb() {
-        int size = Sprite.SCALED_SIZE;
-        int x = this.x / size;
-        int px = (this.x + size - 1) / size;
-        int y = this.y / size;
-        int py = (this.y + size - 1) / size;
-
-        int leftUp = RunBomberman.killObject[y][x];
-        int leftDown = RunBomberman.killObject[py][x];
-        int rightUp = RunBomberman.killObject[y][px];
-        int rightDown = RunBomberman.killObject[py][px];
-
-        if(leftUp != 0 || leftDown != 0 || rightUp != 0 || rightDown != 0) {
-            isDead = true;
-        }
     }
 
     private void checkEnemy() {
@@ -96,7 +76,7 @@ public class Bomber extends Figure {
 
         if (isDead) {
             player.life--;
-            killBomber(player);
+            kill();
             isDead = false;
         }
 
