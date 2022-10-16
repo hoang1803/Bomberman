@@ -1,6 +1,8 @@
 package Entity.Figure;
 
 import Entity.Entity;
+import GameRunner.RunBomberman;
+import Graphics.Sprite;
 import javafx.scene.image.Image;
 
 public abstract class Figure extends Entity {
@@ -19,6 +21,8 @@ public abstract class Figure extends Entity {
     protected int decreaseDelay = 0;
 
     protected boolean transDirection = false;
+
+    protected boolean isDead = false;
 
 
 
@@ -120,6 +124,25 @@ public abstract class Figure extends Entity {
         return transDirection;
     }
 
+    protected boolean checkBomb() {
+        int size = Sprite.SCALED_SIZE;
+        int x = this.x / size;
+        int px = (this.x + size - 1) / size;
+        int y = this.y / size;
+        int py = (this.y + size - 1) / size;
+
+        int leftUp = RunBomberman.killObject[y][x];
+        int leftDown = RunBomberman.killObject[py][x];
+        int rightUp = RunBomberman.killObject[y][px];
+        int rightDown = RunBomberman.killObject[py][px];
+
+        if(leftUp != 0 || leftDown != 0 || rightUp != 0 || rightDown != 0) {
+            isDead = true;
+            return true;
+        }
+        return false;
+    }
+
     public boolean canGo() {
         if (delayTime == 0) {
             delayTime = Math.max(1, defaultDelayTime - decreaseDelay);
@@ -127,6 +150,10 @@ public abstract class Figure extends Entity {
         }
         delayTime--;
         return false;
+    }
+
+    protected void kill() {
+
     }
 
     @Override
