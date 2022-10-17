@@ -71,10 +71,10 @@ public class Balloom extends Figure {
                 break;
 
                 case "right": {
-                    if (up && tmp == 1) {
-                        direction = "up";
-                    } else if (down && tmp == 2) {
+                    if (down && tmp == 1) {
                         direction = "down";
+                    } else if (up && tmp == 2) {
+                        direction = "up";
                     } else {
                         direction = "left";
                     }
@@ -82,10 +82,10 @@ public class Balloom extends Figure {
                 break;
 
                 case "up": {
-                    if (left && tmp == 1) {
-                        direction = "left";
-                    } else if (right && tmp == 2) {
+                    if (right && tmp == 1) {
                         direction = "right";
+                    } else if (left && tmp == 2) {
+                        direction = "left";
                     } else {
                         direction = "down";
                     }
