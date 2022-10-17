@@ -67,7 +67,13 @@ public class RunBomberman extends Application {
                     case DOWN -> Move.moveDown(player);
                     case LEFT -> Move.moveLeft(player);
                     case RIGHT -> Move.moveRight(player);
-                    case SPACE -> Bomb.putBomb();
+                    case SPACE -> {
+                        int countBomb = ((Bomber) player).getCountBomb();
+                        if (countBomb != 0) {
+                            ((Bomber) player).setCountBomb(--countBomb);
+                            Bomb.putBomb();
+                        }
+                    }
                 }
             }
         });
