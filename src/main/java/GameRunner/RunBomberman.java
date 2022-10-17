@@ -88,7 +88,7 @@ public class RunBomberman extends Application {
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 4,"right", 10000000);
+        player = new Bomber(Figure.speed * 4, 2, 4,"right", 100000000);
     }
 
     public void update() {
