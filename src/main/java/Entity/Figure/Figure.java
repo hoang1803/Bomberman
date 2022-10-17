@@ -125,11 +125,12 @@ public abstract class Figure extends Entity {
     }
 
     protected boolean checkBomb() {
+        int esp = 3;
         int size = Sprite.SCALED_SIZE;
-        int x = this.x / size;
-        int px = (this.x + size - 1) / size;
-        int y = this.y / size;
-        int py = (this.y + size - 1) / size;
+        int x = (this.x + esp) / size;
+        int px = (this.x + size - 1 - esp) / size;
+        int y = (this.y + esp) / size;
+        int py = (this.y + size - 1 - esp) / size;
 
         int leftUp = RunBomberman.killObject[y][x];
         int leftDown = RunBomberman.killObject[py][x];
