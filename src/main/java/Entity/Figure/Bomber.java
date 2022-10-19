@@ -31,6 +31,7 @@ public class Bomber extends Figure {
 
     }
 
+
     /**
      * Giao nhau.
      */
