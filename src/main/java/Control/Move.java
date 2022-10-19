@@ -1,19 +1,15 @@
 package Control;
 
-import Entity.Figure.Balloom;
 import Entity.Figure.Bomber;
+import Entity.Figure.Enemies.Balloom;
+import Entity.Figure.Enemies.Enemy;
+import Entity.Figure.Enemies.Oneal;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 import Graphics.Map;
 import Graphics.Sprite;
-import javafx.scene.image.Image;
 
-import java.sql.Time;
-import java.util.Objects;
-import java.util.Timer;
-
-import static Graphics.Sprite.SCALED_SIZE;
-import static Graphics.Sprite.balloom_left1;
+import static Graphics.Sprite.*;
 
 public class Move {
     public static void figureRun(Figure figure) {
@@ -21,14 +17,16 @@ public class Move {
         if(count > 0) {
             figure.setCount(count - 1);
 
+            if (figure.getLife() < 0) {
+                renderDead(figure);
+                return;
+            }
+
             if (figure instanceof Bomber) {
                 setDirection(figure);
             }
 
-            if (figure instanceof Balloom) {
-                if (figure.getLife() < 0) {
-                    return;
-                }
+            if (figure instanceof Enemy) {
                 switch(figure.getDirection()) {
                     case "up" -> {
                         moveUp(figure);
@@ -44,7 +42,6 @@ public class Move {
                     }
                 }
                 setDirection(figure);
-                ((Balloom) figure).autoTransDirection();
             }
         }
     }
@@ -75,13 +72,23 @@ public class Move {
         return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB);
     }
 
+    private static void renderDead(Figure figure) {
+        if (figure instanceof Enemy) {
+            Sprite.renderSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, figure);
+        }
+    }
+
     private static void renderUp(Figure figure) {
         if (figure instanceof Bomber) {
             Sprite.renderSpriteForBomber(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, figure);
         }
 
         if (figure instanceof Balloom) {
-            Sprite.renderSpriteForBalloom(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, figure);
+            Sprite.renderSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, figure);
+        }
+
+        if (figure instanceof Oneal) {
+            Sprite.renderSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, figure);
         }
 
         // Write code here
@@ -101,7 +108,7 @@ public class Move {
                 int realY = y * SCALED_SIZE;
                 speed = figure.getY() - (realY + SCALED_SIZE);
 
-                if (figure instanceof Balloom) {
+                if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
             }
@@ -117,7 +124,11 @@ public class Move {
         }
 
         if (figure instanceof Balloom) {
-            Sprite.renderSpriteForBalloom(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
+            Sprite.renderSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
+        }
+
+        if (figure instanceof Oneal) {
+            Sprite.renderSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, figure);
         }
 
         // Write code here
@@ -136,7 +147,7 @@ public class Move {
                 int realY = y * SCALED_SIZE;
                 speed = (realY - 1) - (figure.getY() + SCALED_SIZE - 1);
 
-                if (figure instanceof Balloom) {
+                if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
             }
@@ -152,7 +163,11 @@ public class Move {
         }
 
         if (figure instanceof Balloom) {
-            Sprite.renderSpriteForBalloom(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, figure);
+            Sprite.renderSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, figure);
+        }
+
+        if (figure instanceof Oneal) {
+            Sprite.renderSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, figure);
         }
         // Write code here
     }
@@ -169,7 +184,7 @@ public class Move {
                 int realX = x * SCALED_SIZE;
                 speed = figure.getX() - (realX + SCALED_SIZE);
 
-                if (figure instanceof Balloom) {
+                if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
             }
@@ -184,7 +199,10 @@ public class Move {
             Sprite.renderSpriteForBomber(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, figure);
         }
         if (figure instanceof Balloom) {
-            Sprite.renderSpriteForBalloom(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
+            Sprite.renderSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
+        }
+        if (figure instanceof Oneal) {
+            Sprite.renderSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, figure);
         }
         // Write code here
     }
@@ -201,7 +219,7 @@ public class Move {
                 int realX = x * SCALED_SIZE;
                 speed = (realX - 1) - (figure.getX() + SCALED_SIZE - 1);
 
-                if (figure instanceof Balloom) {
+                if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
             }
