@@ -2,22 +2,17 @@ package GameRunner;
 
 import Control.Move;
 import Entity.Block.Bomb;
-import Entity.Block.Grass;
-import Entity.Block.Wall;
 import Entity.Entity;
-import Entity.Figure.Balloom;
 import Entity.Figure.Bomber;
 import Entity.Figure.Figure;
 import Graphics.Map;
 import Graphics.Sprite;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -30,6 +25,7 @@ public class RunBomberman extends Application {
     public static int level = 1;
     public static List<Figure> enemy = new ArrayList<>();
     public static List<Entity> block = new ArrayList<>();
+    public static List<Figure> enemyDead = new ArrayList<>(); // enemy chết
     public static Figure player;
     public static char[][] objectMap; // Include: WALL, BRICK, PORTAL, BOMB, GRASS
     public static int[][] killObject; // Bomb sau khi nổ thì lưu vết lửa vẫn còn ở đây.
@@ -95,10 +91,22 @@ public class RunBomberman extends Application {
         block.forEach(Entity::update);
         player.update();
         enemy.forEach(Figure::update);
+
+        for (Figure figure: enemyDead) {
+            if (figure.getCount() <= 0) {
+                System.out.println("enemyDead");
+                enemyDead.remove(figure);
+            }
+        }
+
         for (Figure figure: enemy) {
             if (figure.getLife() >= 0 || (!figure.canGo()))
                 figure.update();
-            else enemy.remove(figure);
+            else {
+                figure.initDead();
+                enemyDead.add(figure);
+                enemy.remove(figure);
+            }
         }
         if (player.canGo()) {
             Move.figureRun(player);
@@ -109,12 +117,19 @@ public class RunBomberman extends Application {
                 Move.figureRun(figure);
             }
         }
+
+        for (Figure figure: enemyDead) {
+            if (figure.canGo()) {
+                Move.figureRun(figure);
+            }
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         block.forEach(g -> g.render(gc));
         enemy.forEach(g -> g.render(gc));
+        enemyDead.forEach(g -> g.render(gc));
         player.render(gc);
     }
 }
