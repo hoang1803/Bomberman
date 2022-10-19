@@ -63,7 +63,13 @@ public class RunBomberman extends Application {
                     case DOWN -> Move.moveDown(player);
                     case LEFT -> Move.moveLeft(player);
                     case RIGHT -> Move.moveRight(player);
-                    case SPACE -> Bomb.putBomb();
+                    case SPACE -> {
+                        int countBomb = ((Bomber) player).getCountBomb();
+                        if (countBomb != 0) {
+                            ((Bomber) player).setCountBomb(--countBomb);
+                            Bomb.putBomb();
+                        }
+                    }
                 }
             }
         });
@@ -84,7 +90,7 @@ public class RunBomberman extends Application {
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 4,"right", 10000000);
+        player = new Bomber(Figure.speed * 4, 2, 4,"right", 100000000);
     }
 
     public void update() {

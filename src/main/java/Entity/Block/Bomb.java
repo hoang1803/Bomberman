@@ -2,6 +2,7 @@ package Entity.Block;
 
 import Control.Blocked;
 import Entity.Entity;
+import Entity.Figure.Bomber;
 import Graphics.Sprite;
 
 import static Graphics.Map.BOMB;
@@ -316,6 +317,8 @@ public class Bomb extends Entity {
                 bombPower[UP] = 0;
                 bombPower[LEFT] = 0;
                 bombPower[RIGHT] = 0;
+
+                ((Bomber) player).setCountBomb(((Bomber) player).getCountBomb() + 1);
             }
         }
 
