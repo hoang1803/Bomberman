@@ -5,7 +5,8 @@ import Entity.Block.Grass;
 import Entity.Block.Portal;
 import Entity.Block.Wall;
 import Entity.Entity;
-import Entity.Figure.Balloom;
+import Entity.Figure.Enemies.Balloom;
+import Entity.Figure.Enemies.Oneal;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 
@@ -82,7 +83,8 @@ public class Map {
                 block.add(entity);
 
                 Figure figure = switch (objectMap[y][x]) {
-                    case BALLOON -> new Balloom(4, 1, 15, "up", 1);
+                    case BALLOON -> new Balloom(2, 1, 15, "up", 1);
+                    case ONEAl -> new Oneal(2, 1, 15, "up", 1);
                     default -> null;
                 };
                 if (figure != null)  {
