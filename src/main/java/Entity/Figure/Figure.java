@@ -22,6 +22,8 @@ public abstract class Figure extends Entity {
 
     protected boolean transDirection = false;
 
+    protected boolean renderedMobDead = false;
+
     protected boolean isDead = false;
 
 
@@ -42,6 +44,10 @@ public abstract class Figure extends Entity {
         this.life = life;
         this.count = 0;
         this.delayTime = 0;
+    }
+
+    public void setDefaultDelayTime(int defaultDelayTime) {
+        this.defaultDelayTime = defaultDelayTime;
     }
 
     public void setDefaultCount(int defaultCount) {
@@ -117,6 +123,14 @@ public abstract class Figure extends Entity {
         return decreaseDelay;
     }
 
+    public boolean isRenderedMobDead() {
+        return renderedMobDead;
+    }
+
+    public void setRenderedMobDead(boolean renderedMobDead) {
+        this.renderedMobDead = renderedMobDead;
+    }
+
     public void setTransDirection(boolean transDirection) {
         this.transDirection = transDirection;
     }
@@ -151,6 +165,10 @@ public abstract class Figure extends Entity {
         }
         delayTime--;
         return false;
+    }
+
+    public void initDead() {
+
     }
 
     protected void kill() {
