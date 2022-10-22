@@ -1,13 +1,13 @@
 package Control;
 
 import Entity.Figure.Bomber;
-import Entity.Figure.Enemies.Balloom;
-import Entity.Figure.Enemies.Enemy;
-import Entity.Figure.Enemies.Oneal;
+import Entity.Figure.Enemies.*;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 import Graphics.Map;
 import Graphics.Sprite;
+
+import java.util.Scanner;
 
 import static Graphics.Sprite.*;
 
@@ -16,11 +16,6 @@ public class Move {
         int count = figure.getCount();
         if(count > 0) {
             figure.setCount(count - 1);
-
-            if (figure.getLife() < 0) {
-                renderDead(figure);
-                return;
-            }
 
             if (figure instanceof Bomber) {
                 setDirection(figure);
@@ -39,6 +34,9 @@ public class Move {
                     }
                     case "right" -> {
                         moveRight(figure);
+                    }
+                    default -> {
+
                     }
                 }
                 setDirection(figure);
@@ -65,17 +63,14 @@ public class Move {
                 renderRight(figure);
                 figure.setX(figure.getX() + step);
             }
+            default -> {
+
+            }
         }
     }
 
     public static boolean hasBlock(char current) {
         return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB);
-    }
-
-    private static void renderDead(Figure figure) {
-        if (figure instanceof Enemy) {
-            Sprite.renderSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, figure);
-        }
     }
 
     private static void renderUp(Figure figure) {
@@ -91,23 +86,47 @@ public class Move {
             Sprite.renderSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, figure);
         }
 
+        if (figure instanceof Doll) {
+            Sprite.renderSprite(Sprite.doll_left1, Sprite.doll_left2, Sprite.doll_left3, figure);
+        }
+
+        if (figure instanceof Kondoria) {
+            Sprite.renderSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, figure);
+        }
+
+        if (figure instanceof Minvo) {
+            Sprite.renderSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3, figure);
+        }
+
         // Write code here
+    }
+
+    public static int speedUp(Figure figure) {
+        int speed = figure.getCurrentSpeed();
+
+        int y = (figure.getY() - speed) / SCALED_SIZE;
+        int x = figure.getX() / SCALED_SIZE;
+        int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
+        char cur = RunBomberman.objectMap[y][x];
+        char cur2 = RunBomberman.objectMap[y][px];
+
+        if (hasBlock(cur) || hasBlock(cur2)) {
+            if (figure instanceof Kondoria
+                    && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
+                return speed;
+            } else {
+                speed = figure.getY() % SCALED_SIZE;
+            }
+        }
+
+        return speed;
     }
 
     public static void moveUp(Figure figure) {
         if(figure.getCount() == 0) {
-            int speed = figure.getCurrentSpeed();
+            int speed = speedUp(figure);
 
-            int y = (figure.getY() - speed) / SCALED_SIZE;
-            int x = figure.getX() / SCALED_SIZE;
-            int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
-            char cur = RunBomberman.objectMap[y][x];
-            char cur2 = RunBomberman.objectMap[y][px];
-
-            if (hasBlock(cur) || hasBlock(cur2)) {
-                int realY = y * SCALED_SIZE;
-                speed = figure.getY() - (realY + SCALED_SIZE);
-
+            if (speed == 0) {
                 if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
@@ -131,22 +150,45 @@ public class Move {
             Sprite.renderSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, figure);
         }
 
+        if (figure instanceof Doll) {
+            Sprite.renderSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, figure);
+        }
+
+        if (figure instanceof Kondoria) {
+            Sprite.renderSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, figure);
+        }
+
+        if (figure instanceof Minvo) {
+            Sprite.renderSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3, figure);
+        }
+
         // Write code here
+    }
+
+    public static int speedDown(Figure figure) {
+        int speed = figure.getCurrentSpeed();
+        int y = (figure.getY() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
+        int x = figure.getX() / SCALED_SIZE;
+        int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
+        char cur = RunBomberman.objectMap[y][x];
+        char cur2 = RunBomberman.objectMap[y][px];
+
+        if (hasBlock(cur) || hasBlock(cur2)) {
+            if (figure instanceof Kondoria
+                    && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
+                return speed;
+            } else {
+                speed = SCALED_SIZE - ((figure.getY() + SCALED_SIZE - 1) % SCALED_SIZE + 1);
+            }
+        }
+        return speed;
     }
 
     public static void moveDown(Figure figure) {
         if(figure.getCount() == 0) {
-            int speed = figure.getCurrentSpeed();
-            int y = (figure.getY() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
-            int x = figure.getX() / SCALED_SIZE;
-            int px = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
-            char cur = RunBomberman.objectMap[y][x];
-            char cur2 = RunBomberman.objectMap[y][px];
+            int speed = speedDown(figure);
 
-            if (hasBlock(cur) || hasBlock(cur2)) {
-                int realY = y * SCALED_SIZE;
-                speed = (realY - 1) - (figure.getY() + SCALED_SIZE - 1);
-
+            if (speed == 0) {
                 if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
@@ -169,21 +211,45 @@ public class Move {
         if (figure instanceof Oneal) {
             Sprite.renderSprite(Sprite.oneal_left1, Sprite.oneal_left2, Sprite.oneal_left3, figure);
         }
+
+
+        if (figure instanceof Doll) {
+            Sprite.renderSprite(Sprite.doll_left1, Sprite.doll_left2, Sprite.doll_left3, figure);
+        }
+
+        if (figure instanceof Kondoria) {
+            Sprite.renderSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, figure);
+        }
+
+        if (figure instanceof Minvo) {
+            Sprite.renderSprite(Sprite.minvo_left1, Sprite.minvo_left2, Sprite.minvo_left3, figure);
+        }
         // Write code here
+    }
+
+    public static int speedLeft(Figure figure) {
+        int speed = figure.getCurrentSpeed();
+        int y = figure.getY() / SCALED_SIZE;
+        int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
+        int x = (figure.getX() - speed) / SCALED_SIZE;
+        char cur = RunBomberman.objectMap[y][x];
+        char cur2 = RunBomberman.objectMap[py][x];
+        if (hasBlock(cur) || hasBlock(cur2)) {
+            if (figure instanceof Kondoria
+                    && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
+                return speed;
+            } else {
+                speed = figure.getX() % SCALED_SIZE;
+            }
+        }
+        return speed;
     }
 
     public static void moveLeft(Figure figure) {
         if(figure.getCount() == 0) {
-            int speed = figure.getCurrentSpeed();
-            int y = figure.getY() / SCALED_SIZE;
-            int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
-            int x = (figure.getX() - speed) / SCALED_SIZE;
-            char cur = RunBomberman.objectMap[y][x];
-            char cur2 = RunBomberman.objectMap[py][x];
-            if (hasBlock(cur) || hasBlock(cur2)) {
-                int realX = x * SCALED_SIZE;
-                speed = figure.getX() - (realX + SCALED_SIZE);
+            int speed = speedLeft(figure);
 
+            if (speed == 0) {
                 if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
@@ -198,27 +264,53 @@ public class Move {
         if (figure instanceof Bomber) {
             Sprite.renderSpriteForBomber(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, figure);
         }
+
         if (figure instanceof Balloom) {
             Sprite.renderSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, figure);
         }
+
         if (figure instanceof Oneal) {
             Sprite.renderSprite(Sprite.oneal_right1, Sprite.oneal_right2, Sprite.oneal_right3, figure);
         }
+
+        if (figure instanceof Doll) {
+            Sprite.renderSprite(Sprite.doll_right1, Sprite.doll_right2, Sprite.doll_right3, figure);
+        }
+
+        if (figure instanceof Kondoria) {
+            Sprite.renderSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, figure);
+        }
+
+        if (figure instanceof Minvo) {
+            Sprite.renderSprite(Sprite.minvo_right1, Sprite.minvo_right2, Sprite.minvo_right3, figure);
+        }
+
         // Write code here
+    }
+
+    public static int speedRight(Figure figure) {
+        int speed = figure.getCurrentSpeed();
+        int y = figure.getY() / SCALED_SIZE;
+        int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
+        int x = (figure.getX() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
+        char cur = RunBomberman.objectMap[y][x];
+        char cur2 = RunBomberman.objectMap[py][x];
+        if (hasBlock(cur) || hasBlock(cur2)) {
+            if (figure instanceof Kondoria
+                    && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
+                return speed;
+            } else {
+                speed = SCALED_SIZE - ((figure.getX() + SCALED_SIZE - 1) % SCALED_SIZE + 1);
+            }
+        }
+        return speed;
     }
 
     public static void moveRight(Figure figure) {
         if(figure.getCount() == 0) {
-            int speed = figure.getCurrentSpeed();
-            int y = figure.getY() / SCALED_SIZE;
-            int py = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
-            int x = (figure.getX() + speed + SCALED_SIZE - 1) / SCALED_SIZE;
-            char cur = RunBomberman.objectMap[y][x];
-            char cur2 = RunBomberman.objectMap[py][x];
-            if (hasBlock(cur) || hasBlock(cur2)) {
-                int realX = x * SCALED_SIZE;
-                speed = (realX - 1) - (figure.getX() + SCALED_SIZE - 1);
+            int speed = speedRight(figure);
 
+            if (speed == 0) {
                 if (figure instanceof Enemy) {
                     figure.setTransDirection(true);
                 }
