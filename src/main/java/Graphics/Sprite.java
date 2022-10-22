@@ -4,7 +4,9 @@ import Entity.Entity;
 import Entity.Figure.Figure;
 import javafx.scene.image.*;
 
-public class Sprite {
+public class
+
+Sprite {
     public static final int ORIGINAL_SIZE = 16;
     public static final int SCALED_SIZE = ORIGINAL_SIZE * 2;
     private static final int TRANSPARENT_COLOR = 0xffff00ff; //Pink color

@@ -3,31 +3,33 @@ package Sound;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import static GameRunner.RunBomberman.player;
 
 public class Sound extends JFrame{
-    public static Clip titleScreen;
+    public static Clip music;
     public static Clip bombExplosion;
     public static Clip justDied;
     public static Clip putBomb;
-    public static boolean isSoundDied;
-    public static boolean isSoundTitle;
+    public static boolean isSoundTitle = false;
+    public static boolean isSoundDied = false;
 
+    public static boolean isSoundComplete = false;
+    public static boolean hasBomb = false;
     public Sound(String name, String sound) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try {
-            URL url = this.getClass().getClassLoader().getResource(name);
-            assert url != null;
-            AudioInputStream audio_input = AudioSystem.getAudioInputStream(url);
-            if (sound.equals("title")) {
-                titleScreen = AudioSystem.getClip();
-                titleScreen.open(audio_input);
-                FloatControl gainControl = (FloatControl) titleScreen.getControl(FloatControl.Type.MASTER_GAIN);
+            final String path = "res/sound/" + name;
+            File file = new File(path);
+            AudioInputStream audio_input = AudioSystem.getAudioInputStream(file);
+            if (sound.equals("music")) {
+                music = AudioSystem.getClip();
+                music.open(audio_input);
+                FloatControl gainControl = (FloatControl) music.getControl(FloatControl.Type.MASTER_GAIN);
                 gainControl.setValue(-8.0f);
-                titleScreen.loop(10);
+                music.loop(10);
             }
             if (sound.equals("explosion")) {
                 bombExplosion = AudioSystem.getClip();
@@ -35,6 +37,7 @@ public class Sound extends JFrame{
                 FloatControl gainControl = (FloatControl) bombExplosion.getControl(FloatControl.Type.MASTER_GAIN);
                 gainControl.setValue(-8.0f);
                 bombExplosion.start();
+                hasBomb = true;
             }
             if (sound.equals("justDied")) {
                 justDied = AudioSystem.getClip();
@@ -61,14 +64,16 @@ public class Sound extends JFrame{
 
     public static void updateSound() {
         if (!isSoundTitle) {
-            new Sound("res/sound/title.wav", "title");
+            new Sound("music.wav", "music");
             isSoundTitle = true;
         }
         if (player.getLife() == 0) {
-            titleScreen.close();
-            bombExplosion.close();
+            music.close();
+            if (hasBomb) {
+                bombExplosion.close();
+            }
             if (!isSoundDied) {
-                new Sound("res/sound/justDied.wav", "justDied");
+                new Sound("Died.wav", "justDied");
                 isSoundDied = true;
             }
         }

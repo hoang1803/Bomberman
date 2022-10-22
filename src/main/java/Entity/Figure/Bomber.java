@@ -37,7 +37,6 @@ public class Bomber extends Figure {
 
     @Override
     protected void kill() {
-
     }
 
 

@@ -45,7 +45,7 @@ public class Bomb extends Entity {
 
     public static void putBomb() {      // The function used for the bomber to place the bomb
         if (bombStatic == 0 && bombNumber > 0) {
-            //new Sound("sound/put_bombs.wav", "putBomb");
+            new Sound("putBombs.wav", "putBomb");
             bombNumber--;
             bombStatic = 1;
             timeToExplode = System.currentTimeMillis();
@@ -262,7 +262,7 @@ public class Bomb extends Entity {
                         isMiddle = true;
                     }
 
-                    //new Sound("sound/bomb_explosion.wav", "explosion");
+                    new Sound("bombExplosion.wav", "explosion");
                     explosionCenter();
                     waitTime += 100L;
                 }

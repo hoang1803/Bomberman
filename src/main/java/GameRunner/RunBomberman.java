@@ -4,7 +4,7 @@ import Control.Move;
 import Entity.Block.Bomb;
 import Entity.Entity;
 import Entity.Figure.Bomber;
-import Entity.Figure.Enemies.*;
+import Entity.Figure.Enemies.Minvo;
 import Entity.Figure.Figure;
 import Graphics.Map;
 import Graphics.Sprite;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Entity.Figure.Enemies.Enemy.RAND;
+import static Sound.Sound.updateSound;
 
 public class RunBomberman extends Application {
     public static final int HEIGHT = 13;
@@ -85,7 +85,7 @@ public class RunBomberman extends Application {
             public void handle(long l) {
                 if (running) {
                     render();
-                    if(!isPause){
+                    if(!isPause) {
                         update();
                     }
                     update();
@@ -93,7 +93,7 @@ public class RunBomberman extends Application {
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 4,"right", 100000000);
+        player = new Bomber(Figure.speed * 4, 2, 4,"right", 1);
     }
 
     public void update() {
@@ -122,6 +122,7 @@ public class RunBomberman extends Application {
                 }
             }
         }
+
         if (player.canGo()) {
             Move.figureRun(player);
         }
@@ -133,6 +134,8 @@ public class RunBomberman extends Application {
         }
 
         enemyDead.forEach(Figure::update);
+
+        updateSound();
     }
 
     public void render() {
