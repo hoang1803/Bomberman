@@ -115,7 +115,7 @@ public class Move {
                     && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
                 return speed;
             } else {
-                speed = figure.getY() % SCALED_SIZE;
+                speed = Math.min(speed, figure.getY() % SCALED_SIZE);
             }
         }
 
@@ -178,7 +178,7 @@ public class Move {
                     && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
                 return speed;
             } else {
-                speed = SCALED_SIZE - ((figure.getY() + SCALED_SIZE - 1) % SCALED_SIZE + 1);
+                speed = Math.min(speed, SCALED_SIZE - ((figure.getY() + SCALED_SIZE - 1) % SCALED_SIZE + 1));
             }
         }
         return speed;
@@ -239,7 +239,7 @@ public class Move {
                     && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
                 return speed;
             } else {
-                speed = figure.getX() % SCALED_SIZE;
+                speed = Math.min(speed, figure.getX() % SCALED_SIZE);
             }
         }
         return speed;
@@ -300,7 +300,7 @@ public class Move {
                     && Kondoria.canGoThrough(cur) && Kondoria.canGoThrough(cur2)) {
                 return speed;
             } else {
-                speed = SCALED_SIZE - ((figure.getX() + SCALED_SIZE - 1) % SCALED_SIZE + 1);
+                speed = Math.min(speed, SCALED_SIZE - ((figure.getX() + SCALED_SIZE - 1) % SCALED_SIZE + 1));
             }
         }
         return speed;
