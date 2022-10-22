@@ -12,7 +12,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == BRICK
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == FLAME_ITEM
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == SPEED_ITEM
-                || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == BALLOON
+                || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == BALLOOM
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == ONEAl
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == KONDORIA
@@ -25,7 +25,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == BRICK
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == FLAME_ITEM
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == SPEED_ITEM
-                || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == BALLOON
+                || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == BALLOOM
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == ONEAl
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == KONDORIA
@@ -38,7 +38,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == BRICK
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == FLAME_ITEM
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == SPEED_ITEM
-                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == BALLOON
+                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == BALLOOM
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == ONEAl
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == KONDORIA
@@ -51,7 +51,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == BRICK
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == FLAME_ITEM
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == SPEED_ITEM
-                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == BALLOON
+                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == BALLOOM
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == ONEAl
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == KONDORIA
