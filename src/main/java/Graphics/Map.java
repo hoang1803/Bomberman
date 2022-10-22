@@ -5,8 +5,7 @@ import Entity.Block.Grass;
 import Entity.Block.Portal;
 import Entity.Block.Wall;
 import Entity.Entity;
-import Entity.Figure.Enemies.Balloom;
-import Entity.Figure.Enemies.Oneal;
+import Entity.Figure.Enemies.*;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 
@@ -27,7 +26,7 @@ public class Map {
     public static final char BOMB = 'z';
 
     public static final char PLAYER = 'p';
-    public static final char BALLOON = '1';
+    public static final char BALLOOM = '1';
     public static final char ONEAl = '2';
     public static final char DOLL = '3';
     public static final char KONDORIA = '4';
@@ -83,10 +82,14 @@ public class Map {
                 block.add(entity);
 
                 Figure figure = switch (objectMap[y][x]) {
-                    case BALLOON -> new Balloom(2, 1, 15, "up", 1);
+                    case BALLOOM -> new Balloom(2, 1, 15, "up", 1);
                     case ONEAl -> new Oneal(2, 1, 15, "up", 1);
+                    case DOLL -> new Doll(2, 1, 15, "up", 1);
+                    case KONDORIA -> new Kondoria(2, 1, 15, "up", 1);
+                    case MINVO -> new Minvo(2, 1, 15, "up", 1);
                     default -> null;
                 };
+
                 if (figure != null)  {
                     figure.setX(x * Sprite.SCALED_SIZE);
                     figure.setY(y * Sprite.SCALED_SIZE);
