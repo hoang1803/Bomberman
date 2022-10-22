@@ -2,6 +2,7 @@ package Entity.Figure.Enemies;
 
 import Control.Move;
 import Entity.Figure.Figure;
+import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -17,6 +18,11 @@ abstract public class Enemy extends Figure {
 
     protected int timeLeft = 0; // thoi gian chuyen huong
 
+    protected static final int LEFT = 1;
+    protected static final int RIGHT = 2;
+    protected static final int UP = 3;
+    protected static final int DOWN = 4;
+
     public Enemy() {
 
     }
@@ -31,74 +37,31 @@ abstract public class Enemy extends Figure {
         super(x, y, img);
     }
 
+    protected void renderDead() {
+        Sprite.renderSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, this);
+    }
+
+
     public void autoTransDirection() {
         timeLeft--;
-        int pX = x / Sprite.SCALED_SIZE;
-        int pY = y / Sprite.SCALED_SIZE;
+        if (timeLeft <= 0) {
+            transDirection = true;
+            timeLeft = RAND.nextInt(200) * 10;
+        }
 
-        if (this.transDirection || pX * Sprite.SCALED_SIZE == x && pY * Sprite.SCALED_SIZE == y) {
+        if (this.transDirection) {
 
-            if (this.transDirection || timeLeft <= 0) {
-                timeLeft = RAND.nextInt(20) * 4;
-            } else {
-                return;
-            }
             setTransDirection(false);
 
-            boolean left = ((pX >= 1) && (!Move.hasBlock(objectMap[pY][pX - 1])));
-            boolean right = ((pX + 1 < WIDTH) && (!Move.hasBlock(objectMap[pY][pX + 1])));
-            boolean up = ((pY >= 1) && (!Move.hasBlock(objectMap[pY - 1][pX])));
-            boolean down = ((pY + 1 < HEIGHT) && (!Move.hasBlock(objectMap[pY + 1][pX])));
-            int tmp = RAND.nextInt(2) + 1;
-            switch (direction) {
-                case "left": {
-                    if (up && tmp == 1) {
-                        direction = "up";
-                    } else if (down && tmp == 2) {
-                        direction = "down";
-                    } else {
-                        direction = "right";
-                    }
-                }
-                break;
+            int tmp = RAND.nextInt(4) + 1;
 
-                case "right": {
-                    if (down && tmp == 1) {
-                        direction = "down";
-                    } else if (up && tmp == 2) {
-                        direction = "up";
-                    } else {
-                        direction = "left";
-                    }
-                }
-                break;
-
-                case "up": {
-                    if (right && tmp == 1) {
-                        direction = "right";
-                    } else if (left && tmp == 2) {
-                        direction = "left";
-                    } else {
-                        direction = "down";
-                    }
-                }
-                break;
-
-                case "down": {
-                    if (left && tmp == 1) {
-                        direction = "left";
-                    } else if (right && tmp == 2) {
-                        direction = "right";
-                    } else {
-                        direction = "up";
-                    }
-                }
-                break;
-
-                default: {
-
-                }
-            }
+            direction = switch (tmp) {
+                case UP -> "up";
+                case DOWN -> "down";
+                case LEFT -> "left";
+                case RIGHT -> "right";
+                default -> direction;
+            };
         }
     }
 
@@ -112,6 +75,7 @@ abstract public class Enemy extends Figure {
 
     @Override
     public void initDead() {
+        life = -2;
         setDelayTime(15);
         setCount(3);
         setCurrentFrame(1);
@@ -119,6 +83,14 @@ abstract public class Enemy extends Figure {
 
     @Override
     public void update() {
+        if (life == -2) {
+            if(count > 0 && canGo()) {
+                count--;
+                renderDead();
+            }
+            return;
+        }
+
         checkBomb();
 
         if (isDead) {
