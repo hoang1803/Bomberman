@@ -3,7 +3,6 @@ package Entity.Figure.Enemies;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
-import static Entity.Figure.Intelligent.AStar.findDirection;
 import static GameRunner.RunBomberman.*;
 
 
@@ -42,7 +41,6 @@ public class Oneal extends Enemy {
     public void autoTransDirection() {
         autoSpeed();
         super.autoTransDirection();
-       // setDirection(findDirection(this, WIDTH, HEIGHT));
     }
 
     @Override
