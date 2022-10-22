@@ -19,12 +19,21 @@ public class Node implements Comparable<Node> {
 
     private List<Integer> neighbors;
 
+    public Node() {
+        this.col = 0;
+        this.row = 0;
+        this.g = Integer.MAX_VALUE;
+        this.f = Integer.MAX_VALUE;
+        this.h = 0;
+        this.parent = null;
+        neighbors = new ArrayList<>();
+    }
 
     public Node(int x, int y) {
         this.col = x / Sprite.SCALED_SIZE;
         this.row = y / Sprite.SCALED_SIZE;
-        this.g = 0;
-        this.f = 0;
+        this.g = Integer.MAX_VALUE;
+        this.f = Integer.MAX_VALUE;
         this.h = 0;
         this.parent = null;
         neighbors = new ArrayList<>();
@@ -137,12 +146,20 @@ public class Node implements Comparable<Node> {
     }
 
     public void addAllNeighbor() {
+        if(Move.hasBlock(objectMap[row][col])) {
+            return;
+        }
+
         int[] dx = new int[] {-1,  0, 0, 1};
         int[] dy = new int[] { 0, -1, 1, 0};
 
         for (int i = 0; i < dx.length; i++) {
             addNeighbor(row + dx[i], col + dy[i]);
         }
+    }
+
+    public int getIndex() {
+        return row * WIDTH + col;
     }
 
     @Override

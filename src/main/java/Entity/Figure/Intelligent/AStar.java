@@ -1,222 +1,167 @@
 package Entity.Figure.Intelligent;
 
-import Control.Move;
 import Entity.Figure.Figure;
 import Graphics.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import static GameRunner.RunBomberman.*;
 
 public class AStar {
-    private int[] status;
-    private Node[] node;
-    private List<Integer>[] edges;
-    private int size;
+    private static Node[] nodes = new Node[WIDTH * HEIGHT];
 
+    private static PriorityQueue<Node> openList = new PriorityQueue<>();
+    private static PriorityQueue<Node> closedList = new PriorityQueue<>();
     public AStar() {
 
     }
 
-    public AStar(int width, int height) {
-        int size = width * height;
-        this.size = size;
-        this.status = new int[size];
-        this.node = new Node[size];
-        this.edges = new List[size];
+    private static void update() {
 
-        for (int i = 0; i < size; i++) {
-            this.edges[i] = new ArrayList<>();
-        }
+        for (int row = 0; row < HEIGHT; row++) {
+            for (int col = 0; col < WIDTH; col++) {
 
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                if (Move.hasBlock(objectMap[row][col])) {
-                    continue;
-                }
+                int index = row * WIDTH + col;
 
-                int index = row * height + col;
+                nodes[index] = new Node();
+                nodes[index].setCol(col);
+                nodes[index].setRow(row);
 
-                if (!Move.hasBlock(objectMap[row][col + 1])) {
-                    edges[index].add(index + 1);
-                }
+                int h = nodes[index].getHeuristic(player);
+                nodes[index].setH(h);
 
-                if (!Move.hasBlock(objectMap[row][col - 1])) {
-                    edges[index].add(index - 1);
-                }
-
-                if (!Move.hasBlock(objectMap[row + 1][col])) {
-                    edges[index].add(index + height);
-                }
-
-                if (!Move.hasBlock(objectMap[row - 1][col])) {
-                    edges[index].add(index - height);
-                }
-
-                node[index] = new Node(row, col, width, height);
-                int h = node[index].getHeuristic(player);
-                node[index].setH(h);
+                nodes[index].addAllNeighbor();
             }
         }
     }
-
-    public int[] getStatus() {
-        return status;
+    private static int getIndex(Figure figure) {
+        int row = figure.getY() / Sprite.SCALED_SIZE;
+        int col = figure.getX() / Sprite.SCALED_SIZE;
+        return row * WIDTH + col;
     }
+    private static void aStar(Figure figure) {
 
-    public int getSize() {
-        return size;
-    }
+        update();
 
-    public List[] getEdges() {
-        return edges;
-    }
+        openList.clear();
+        closedList.clear();
 
-    public Node[] getNode() {
-        return node;
-    }
+        int figureIndex = getIndex(figure);
+        nodes[figureIndex].setG(0);
+        nodes[figureIndex].setF(nodes[figureIndex].getH());
 
+        openList.add(nodes[figureIndex]);
 
-    public void setEdges(List[] edges) {
-        this.edges = edges;
-    }
+        int playerIndex = getIndex(player);
 
-    public void setStatus(int[] status) {
-        this.status = status;
-    }
+        while (!openList.isEmpty()) {
+            Node u = openList.poll();
+            closedList.add(u);
+            int currentIndex = u.getIndex();
 
-    public void setNode(Node[] node) {
-        this.node = node;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    private int count() {
-        int cnt = 0;
-        for (int i = 0; i < this.size; i++) {
-            if (node[i] != null && status[i] == 1) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-
-    private int find() {
-        for (int i = 0; i < size; i++) {
-            if(status[i] == 1) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private int findMin() {
-        int minIdx = find();
-        if (minIdx == -1) {
-            return -1;
-        }
-
-        for (int i = 0; i < size; i++) {
-            if (status[i] != 1 || node[i] == null) {
+            if (u.getF() != nodes[currentIndex].getF()) {
                 continue;
             }
 
-            if (node[minIdx].getF() > node[i].getF()) {
-                minIdx = i;
+            if (currentIndex == playerIndex) {
+                return;
+            }
+
+            for (int index : u.getNeighbors()) {
+                Node v = nodes[index];
+                int g = u.getG() + 1;
+
+                if (!openList.contains(v) && !closedList.contains(v)) {
+                    v.setG(g);
+                    v.setF(g + v.getH());
+                    v.setParent(u);
+                    openList.add(v);
+                } else {
+                    if (v.getG() > g) {
+                        v.setG(g);
+                        v.setF(g + v.getH());
+                        v.setParent(u);
+
+                        if (closedList.contains(v)) {
+                           closedList.remove(v);
+                           openList.add(v);
+                        }
+                    }
+                }
+                nodes[index] = v;
             }
         }
-        return minIdx;
     }
 
-    private String getDirection(Figure figure, int height) {
-        int row = player.getY() / Sprite.SCALED_SIZE;
-        int col = player.getX() / Sprite.SCALED_SIZE;
-        int index = row * height + col;
-        if (node[index] == null) {
-            return figure.getDirection();
+    private static List<Node> findPath(Figure figure) {
+        aStar(figure);
+
+        List<Node> path = new ArrayList<>();
+
+        int playerIndex = getIndex(player);
+
+        Node currentNode = nodes[playerIndex];
+
+        while (currentNode.getParent() != null) {
+            path.add(0, currentNode);
+            currentNode = currentNode.getParent();
         }
 
-        int parentIndex = index;
-        while (node[parentIndex].getParent() != -1) {
-            parentIndex = node[parentIndex].getParent();
-        }
-
-        int rowPar = parentIndex / height;
-        int colPar = parentIndex % height;
-        if (colPar - col == -1) {
-            return "left";
-        }
-
-        if (colPar - col == 1) {
-            return "right";
-        }
-
-        if (rowPar - row == -1) {
-            return "up";
-        }
-        if (rowPar - row == 1) {
-            return "down";
-        }
-
-        return figure.getDirection();
+        return path;
     }
 
-    /**
-     * Find direction from figure to player.
-     * @param figure figure
-     * @param width width
-     * @param height height
-     * @return direction
-     */
-    public static String findDirection(Figure figure, int width, int height) {
-        AStar aStar = new AStar(width, height);
-        int row = figure.getY() / Sprite.SCALED_SIZE;
-        int col = figure.getX() / Sprite.SCALED_SIZE;
-        int index = row * height + col;
+    public static String getDirection(Figure figure) {
+        List<Node> path = findPath(figure);
+        String direction = figure.getDirection();
+        try {
+            Node child = path.get(0);
+            Node parent = child.getParent();
 
-        int rp = player.getY() / Sprite.SCALED_SIZE;
-        int cp = player.getX() / Sprite.SCALED_SIZE;
-        int pIndex = rp * height + cp;
-
-        aStar.status[index] = 1;
-        int count = 1;
-        while (count != 0) {
-            int u = aStar.findMin();
-            aStar.status[u] = 2;
-            count--;
-            if (u == pIndex) {
-                break;
+            if (parent.getIndex() != getIndex(figure)) {
+                throw new Exception();
             }
 
-            for (Integer v : aStar.edges[u]) {
+            int cRow = child.getRow();
+            int cCol = child.getCol();
 
-                if (aStar.status[v] == 0) {
-                    int g = aStar.node[u].getG() + 1;
-                    aStar.node[v].setG(g);
-                    aStar.node[v].setF(aStar.node[v].getG() + aStar.node[v].getH());
-                    aStar.node[v].setParent(u);
-                    aStar.status[v] = 1;
-                    count++;
-                    continue;
-                }
+            int pRow = parent.getRow();
+            int pCol = parent.getCol();
 
-                if (aStar.status[v] == 1 && aStar.node[v].getG() > aStar.node[u].getG() + 1) {
-                    int g = aStar.node[u].getG() + 1;
-                    aStar.node[v].setG(g);
-                    aStar.node[v].setF(aStar.node[v].getG() + aStar.node[v].getH());
-                    aStar.node[v].setParent(u);
-                    continue;
-                }
+            int dx = cRow - pRow;
+            int dy = cCol - pCol;
 
-                if (aStar.status[v] == 2 && aStar.node[v].getG() > aStar.node[u].getG() + 1) {
-                    aStar.status[v] = 1;
-                    count++;
-                }
+            if (dx != 0 && dy != 0) {
+                throw new Exception();
             }
+
+            if (dx == 0 && dy == 0) {
+                throw new Exception();
+            }
+
+            if (dx == -1) {
+                direction = "up";
+            }
+
+            if (dx == 1) {
+                direction = "down";
+            }
+
+            if (dy == -1) {
+                direction = "left";
+            }
+
+            if (dy == 1) {
+                direction = "right";
+            }
+
+
+
+        } catch (Exception e) {
+//            e.printStackTrace();
         }
-        return aStar.getDirection(figure, height);
+
+        return direction;
     }
 }
