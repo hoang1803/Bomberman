@@ -114,7 +114,7 @@ public class AStar {
 
     public static String getDirection(Figure figure) {
         List<Node> path = findPath(figure);
-        String direction = figure.getDirection();
+        String direction = "";
         try {
             Node child = path.get(0);
             Node parent = child.getParent();
