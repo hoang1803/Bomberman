@@ -139,7 +139,7 @@ public abstract class Figure extends Entity {
     }
 
     protected boolean checkBomb() {
-        int esp = 5;
+        int esp = 8;
         int size = Sprite.SCALED_SIZE;
         int x = (this.x + esp) / size;
         int px = (this.x + size - 1 - esp) / size;
