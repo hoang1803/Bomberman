@@ -1,5 +1,6 @@
 package Entity.Figure.Enemies;
 
+import Control.Move;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -7,8 +8,6 @@ import static GameRunner.RunBomberman.*;
 
 
 public class Oneal extends Enemy {
-
-    private int timeLeftTransDirect = 0;
 
     private int timeLeftTransSpeed = 0;
 
@@ -29,24 +28,52 @@ public class Oneal extends Enemy {
     public void autoSpeed() {
         timeLeftTransSpeed--;
         if(timeLeftTransSpeed <= 0) {
-            if(currentFrame != 1) {
-                return;
-            }
             setCurrentSpeed((int) Math.pow(2,RAND.nextInt(2) + 2));
-            setCount(Math.max(1, currentSpeed / 4));
-            timeLeftTransSpeed = (RAND.nextInt(200) + 2000);
+            timeLeftTransSpeed = (RAND.nextInt(200) + 1000);
         }
     }
 
+    @Override
     public void autoTransDirection() {
-        autoSpeed();
-        super.autoTransDirection();
+        int speed = currentSpeed;
+        if (player.getY() < this.y) {
+            currentSpeed = Math.min(currentSpeed, this.y - player.getY());
+            direction = "up";
+            if (Move.speedUp(this) > 0) {
+                return;
+            }
+            currentSpeed = speed;
+        }
+        if (player.getY() > this.y) {
+            currentSpeed = Math.min(currentSpeed, player.getY() - this.y);
+            direction = "down";
+            if (Move.speedDown(this) > 0) {
+                return;
+            }
+            currentSpeed = speed;
+        }
+        if (player.getX() < this.x) {
+            currentSpeed = Math.min(currentSpeed, this.x - player.getX());
+            direction = "left";
+            if (Move.speedLeft(this) > 0) {
+                return;
+            }
+            currentSpeed = speed;
+        }
+        if (player.getX() > this.x) {
+            currentSpeed = Math.min(currentSpeed, player.getX() - this.x);
+            direction = "right";
+            if (Move.speedRight(this) > 0) {
+                return;
+            }
+            currentSpeed = speed;
+        }
     }
 
     @Override
     public void update() {
         autoSpeed();
-        autoTransDirection();
+        this.autoTransDirection();
         super.update();
     }
 
