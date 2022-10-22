@@ -112,17 +112,7 @@ public class RunBomberman extends Application {
                 figure.update();
             else {
                 if (figure instanceof Minvo) {
-                    int rand = Enemy.RAND.nextInt(4);
-                    char c = (char) (rand + '1');
-                    Figure newEnemy = switch (c) {
-                        case Map.BALLOOM -> new Balloom(2, 1, 15, "up", 1);
-                        case Map.ONEAl -> new Oneal(2, 1, 15, "up", 1);
-                        case Map.DOLL -> new Doll(2, 1, 15, "up", 1);
-                        case Map.KONDORIA -> new Kondoria(2, 1, 15, "up", 1);
-                        default -> null;
-                    };
-                    newEnemy.setX(figure.getX());
-                    newEnemy.setY(figure.getY());
+                    Figure newEnemy = Minvo.createNewEnemy(figure.getX(), figure.getY());
                     enemy.remove(figure);
                     enemy.add(newEnemy);
                 } else {
