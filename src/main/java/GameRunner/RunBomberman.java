@@ -4,6 +4,7 @@ import Control.Move;
 import Entity.Block.Bomb;
 import Entity.Entity;
 import Entity.Figure.Bomber;
+import Entity.Figure.Enemies.*;
 import Entity.Figure.Figure;
 import Graphics.Map;
 import Graphics.Sprite;
@@ -17,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static Entity.Figure.Enemies.Enemy.RAND;
 
 public class RunBomberman extends Application {
     public static final int HEIGHT = 13;
@@ -100,7 +103,6 @@ public class RunBomberman extends Application {
 
         for (Figure figure: enemyDead) {
             if (figure.getCount() <= 0) {
-                System.out.println("enemyDead");
                 enemyDead.remove(figure);
             }
         }
@@ -109,9 +111,25 @@ public class RunBomberman extends Application {
             if (figure.getLife() >= 0 || (!figure.canGo()))
                 figure.update();
             else {
-                figure.initDead();
-                enemyDead.add(figure);
-                enemy.remove(figure);
+                if (figure instanceof Minvo) {
+                    int rand = Enemy.RAND.nextInt(4);
+                    char c = (char) (rand + '1');
+                    Figure newEnemy = switch (c) {
+                        case Map.BALLOOM -> new Balloom(2, 1, 15, "up", 1);
+                        case Map.ONEAl -> new Oneal(2, 1, 15, "up", 1);
+                        case Map.DOLL -> new Doll(2, 1, 15, "up", 1);
+                        case Map.KONDORIA -> new Kondoria(2, 1, 15, "up", 1);
+                        default -> null;
+                    };
+                    newEnemy.setX(figure.getX());
+                    newEnemy.setY(figure.getY());
+                    enemy.remove(figure);
+                    enemy.add(newEnemy);
+                } else {
+                    figure.initDead();
+                    enemyDead.add(figure);
+                    enemy.remove(figure);
+                }
             }
         }
         if (player.canGo()) {
@@ -124,11 +142,7 @@ public class RunBomberman extends Application {
             }
         }
 
-        for (Figure figure: enemyDead) {
-            if (figure.canGo()) {
-                Move.figureRun(figure);
-            }
-        }
+        enemyDead.forEach(Figure::update);
     }
 
     public void render() {
