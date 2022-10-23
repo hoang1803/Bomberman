@@ -1,11 +1,13 @@
 package Entity.Items;
 
 import Entity.Block.Bomb;
+import Entity.Entity;
 import Entity.Figure.Bomber;
+import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
-import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.*;
 
 public class BombItems extends Items {
     public BombItems() {
@@ -22,12 +24,19 @@ public class BombItems extends Items {
 
     @Override
     public void update() {
-        int x = player.getX();
-        int y = player.getY();
-        if (!this.received && x == this.x && y == this.y) {
-            this.received = true;
-            this.image = Sprite.grass.getFxImage();
-            ((Bomber) player).setCountBomb(((Bomber) player).getCountBomb() + 1);
+
+        if (!received) {
+
+            if (killObject[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] != 0) {
+                setImage(Sprite.powerup_bombs.getFxImage());
+                objectMap[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = Map.GRASS;
+            }
+
+            if (player.getX() == this.x && player.getY() == this.y) {
+                received = true;
+                setImage(Sprite.grass.getFxImage());
+                ((Bomber) player).setCountBomb(((Bomber) player).getCountBomb() + 1);
+            }
         }
     }
 }
