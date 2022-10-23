@@ -7,6 +7,9 @@ import Entity.Block.Wall;
 import Entity.Entity;
 import Entity.Figure.Enemies.*;
 import Entity.Figure.Figure;
+import Entity.Items.BombItems;
+import Entity.Items.FlameItems;
+import Entity.Items.SpeedItems;
 import GameRunner.RunBomberman;
 
 import java.io.File;
@@ -35,6 +38,7 @@ public class Map {
     public static final char BOMB_ITEM = 'b';
     public static final char FLAME_ITEM = 'f';
     public static final char SPEED_ITEM = 's';
+
     public Map(int level) {
         final String path = "res/levels/level" + level + ".txt";
         File file = new File(path);
@@ -75,9 +79,15 @@ public class Map {
             for(int x = 0; x < width; x++) {
 
                 Entity entity = switch (objectMap[y][x]) {
+
                     case WALL -> new Wall(x, y, Sprite.wall.getFxImage());
                     case BRICK -> new Brick(x, y, Sprite.brick.getFxImage());
                     case PORTAL -> new Portal(x, y, Sprite.portal.getFxImage());
+
+                    case BOMB_ITEM -> new BombItems(x, y, Sprite.brick.getFxImage());
+                    case FLAME_ITEM -> new FlameItems(x, y, Sprite.brick.getFxImage());
+                    case SPEED_ITEM -> new SpeedItems(x, y, Sprite.brick.getFxImage());
+
                     default -> new Grass(x, y, Sprite.grass.getFxImage());
                 };
                 block.add(entity);
