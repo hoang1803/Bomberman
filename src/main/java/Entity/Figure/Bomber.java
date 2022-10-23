@@ -37,6 +37,24 @@ public class Bomber extends Figure {
 
     @Override
     protected void kill() {
+        if (countDead % 32 == 0) {
+            if (deadFrame == 1) {
+                setImage(Sprite.player_dead1.getFxImage());
+                deadFrame = 2;
+            } else if (deadFrame == 2) {
+                setImage(Sprite.player_dead2.getFxImage());
+                deadFrame = 3;
+            } else if (deadFrame == 3) {
+                setImage(Sprite.player_dead3.getFxImage());
+                deadFrame = 4;
+            } else {
+                System.err.println("Ngu qua");
+                System.exit(1);
+
+            }
+        }
+
+        countDead++;
     }
 
 
@@ -85,10 +103,11 @@ public class Bomber extends Figure {
 
         if (isDead) {
             player.life--;
-            kill();
             isDead = false;
         }
 
-        countDead++;
+        if (player.life <= 0) {
+            kill();
+        }
     }
 }
