@@ -70,7 +70,8 @@ public class Move {
     }
 
     public static boolean hasBlock(char current) {
-        return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB);
+        return (current == Map.WALL || current == Map.BRICK || current == Map.BOMB ||
+                current == Map.BOMB_ITEM || current == Map.FLAME_ITEM || current == Map.SPEED_ITEM);
     }
 
     private static void renderUp(Figure figure) {
