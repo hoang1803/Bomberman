@@ -1,6 +1,8 @@
 package Entity.Items;
 
 import Entity.Block.Bomb;
+import Entity.Figure.Bomber;
+import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -21,13 +23,20 @@ public class SpeedItems extends Items {
 
     @Override
     public void update() {
-        int x = player.getX();
-        int y = player.getY();
-        if (!this.received && x == this.x && y == this.y) {
-            this.received = true;
-            this.image = Sprite.grass.getFxImage();
-            int des = player.getDecreaseDelay();
-            player.setDecreaseDelay(des + 1);
+
+        if (!received) {
+
+            if (killObject[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] != 0) {
+                setImage(Sprite.powerup_speed.getFxImage());
+                objectMap[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = Map.GRASS;
+            }
+
+            if (player.getX() == this.x && player.getY() == this.y) {
+                received = true;
+                setImage(Sprite.grass.getFxImage());
+                int des = player.getDecreaseDelay();
+                player.setDecreaseDelay(des + 1);
+            }
         }
     }
 }
