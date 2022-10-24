@@ -88,13 +88,14 @@ public class RunBomberman extends Application {
                     render();
                     if(!isPause) {
                         update();
+                        update();
                     }
-                    update();
+//                    updateMenu();
                 }
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 4,"right", 1);
+        player = new Bomber(Figure.speed * 4, 2, 5,"right", 1);
     }
 
     public void update() {
