@@ -129,7 +129,7 @@ public class Move {
 
             if (speed == 0) {
                 if (figure instanceof Enemy) {
-                    figure.setTransDirection(true);
+                    ((Enemy) figure).setTransDirection(true);
                 }
             }
             figure.setDirection("up");
@@ -191,7 +191,7 @@ public class Move {
 
             if (speed == 0) {
                 if (figure instanceof Enemy) {
-                    figure.setTransDirection(true);
+                    ((Enemy) figure).setTransDirection(true);
                 }
             }
             figure.setDirection("down");
@@ -252,7 +252,7 @@ public class Move {
 
             if (speed == 0) {
                 if (figure instanceof Enemy) {
-                    figure.setTransDirection(true);
+                    ((Enemy) figure).setTransDirection(true);
                 }
             }
             figure.setDirection("left");
@@ -313,7 +313,7 @@ public class Move {
 
             if (speed == 0) {
                 if (figure instanceof Enemy) {
-                    figure.setTransDirection(true);
+                    ((Enemy) figure).setTransDirection(true);
                 }
             }
             figure.setDirection("right");
