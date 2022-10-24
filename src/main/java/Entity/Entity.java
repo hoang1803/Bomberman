@@ -65,5 +65,5 @@ public abstract class Entity{
     public int getCurrentFrame() {
         return currentFrame;
     }
-        public abstract void update();
+    public abstract void update();
 }
