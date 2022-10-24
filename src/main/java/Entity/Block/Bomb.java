@@ -1,6 +1,7 @@
 package Entity.Block;
 
 import Control.Blocked;
+import Control.Move;
 import Entity.Entity;
 import Entity.Figure.Bomber;
 import Graphics.Sprite;
@@ -24,7 +25,7 @@ public class Bomb extends Entity {
     protected double waitTime = 20;
     protected int bombStatic = 0; //0 no bomb  //1 had bomb  //-1 explosion
     public static int bombNumber = 20; // chuyen sang quan ly o lop control/menu
-    public static int countBomb = 1;
+    public static int countBomb = 3;
     private final List<Entity> listBombX = new ArrayList<>();
     private final List<Entity> listBombY = new ArrayList<>();
     public static int range = 0; // bomb's extra explosive range
@@ -60,7 +61,8 @@ public class Bomb extends Entity {
         x = Math.round((float) x);
         y = Math.round((float) y);
 
-        if (objectMap[y][x] != GRASS) {
+        if (Move.hasBlock(objectMap[y][x])) {
+
             return;
         }
 
@@ -68,7 +70,6 @@ public class Bomb extends Entity {
         bomb.setX(x * SCALED_SIZE);
         bomb.setY(y * SCALED_SIZE);
         bomb.setImage(Sprite.bomb.getFxImage());
-//            new Bomb(x, y, Sprite.bomb.getFxImage());
         bomb.setCurrentFrame(1);
         block.add(bomb);
         objectMap[y][x] = BOMB;
