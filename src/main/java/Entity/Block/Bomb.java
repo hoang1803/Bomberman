@@ -25,7 +25,7 @@ public class Bomb extends Entity {
     protected double waitTime = 20;
     protected int bombStatic = 0; //0 no bomb  //1 had bomb  //-1 explosion
     public static int bombNumber = 20; // chuyen sang quan ly o lop control/menu
-    public static int countBomb = 3;
+    public static int countBomb = 1;
     private final List<Entity> listBombX = new ArrayList<>();
     private final List<Entity> listBombY = new ArrayList<>();
     public static int range = 0; // bomb's extra explosive range
