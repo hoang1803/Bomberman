@@ -17,7 +17,7 @@ public class Brick extends Entity {
     public void update() {
         for (Entity entity : block) {
             if (entity instanceof Brick)
-                if (killObject[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE] == 4) {    // At the element of the 2-dimensional killObject array with the value 4, Brick and Grass will appear
+                if (killObject[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE] != 0) {    // At the element of the 2-dimensional killObject array with the value 4, Brick and Grass will appear
                     entity.setImage(Sprite.grass.getFxImage());
                 }
         }
