@@ -54,11 +54,9 @@ public class Bomber extends Figure {
      * Giao nhau.
      */
     private boolean hasIntersect(int pos1, int pos2) {
-        int esp = 5;
-        return (pos2 < pos1 + Sprite.SCALED_SIZE &&
-                    pos1 + Sprite.SCALED_SIZE < pos2 + Sprite.SCALED_SIZE) ||
-                (pos1 < pos2 + Sprite.SCALED_SIZE &&
-                        pos2 + Sprite.SCALED_SIZE < pos1 + Sprite.SCALED_SIZE);
+        int esp = 8;
+        return (pos1 < pos2 && (pos1 + Sprite.SCALED_SIZE - 1) - pos2 >= esp)
+                || (pos2 < pos1 && (pos2 + Sprite.SCALED_SIZE - 1) - pos1 >= esp);
     }
 
     private void checkEnemy() {
