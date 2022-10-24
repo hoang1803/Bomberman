@@ -4,6 +4,7 @@ import Control.Move;
 import Entity.Block.Bomb;
 import Entity.Entity;
 import Entity.Figure.Bomber;
+import Entity.Figure.Enemies.Enemy;
 import Entity.Figure.Enemies.Minvo;
 import Entity.Figure.Figure;
 import Graphics.Map;
@@ -16,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
+import javax.xml.stream.events.EndElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,7 +89,7 @@ public class RunBomberman extends Application {
                     if(!isPause) {
                         update();
                     }
-//                    updateMenu();
+                    update();
                 }
             }
         };
@@ -115,7 +117,7 @@ public class RunBomberman extends Application {
                     enemy.remove(figure);
                     enemy.add(newEnemy);
                 } else {
-                    figure.initDead();
+                    ((Enemy) figure).initDead();
                     enemyDead.add(figure);
                     enemy.remove(figure);
                 }
