@@ -17,11 +17,14 @@ abstract public class Enemy extends Figure {
     public static final Random RAND = new Random();
 
     protected int timeLeft = 0; // thoi gian chuyen huong
+    protected boolean transDirection = false;
 
-    protected static final int LEFT = 1;
-    protected static final int RIGHT = 2;
-    protected static final int UP = 3;
-    protected static final int DOWN = 4;
+    protected static final int LEFT = 0;
+    protected static final int RIGHT = 1;
+    protected static final int UP = 2;
+    protected static final int DOWN = 3;
+
+    protected boolean[] canMove = {false, false, false, false};
 
     public Enemy() {
 
@@ -46,7 +49,7 @@ abstract public class Enemy extends Figure {
         timeLeft--;
         if (timeLeft <= 0) {
             transDirection = true;
-            timeLeft = RAND.nextInt(200) * 10;
+            timeLeft = RAND.nextInt(100) * 10;
         }
 
         if (this.transDirection) {
@@ -55,25 +58,48 @@ abstract public class Enemy extends Figure {
 
             int tmp = RAND.nextInt(4) + 1;
 
-            direction = switch (tmp) {
-                case UP -> "up";
-                case DOWN -> "down";
-                case LEFT -> "left";
-                case RIGHT -> "right";
-                default -> direction;
+            canMove[UP] = Move.speedUp(this) > 0;
+            canMove[DOWN] = Move.speedDown(this) > 0;
+            canMove[LEFT] = Move.speedLeft(this) > 0;
+            canMove[RIGHT] = Move.speedRight(this) > 0;
+
+            for (int i = 0; i < 4; i++) {
+                if (canMove[i]) {
+                    tmp--;
+                }
+                if (tmp == 0) {
+                    direction = switch (i) {
+                        case UP -> "up";
+                        case DOWN -> "down";
+                        case LEFT -> "left";
+                        case RIGHT -> "right";
+                        default -> "";
+                    };
+                    return;
+                }
+            }
+
+            direction = switch (direction) {
+                case "up" -> "down";
+                case "down" -> "up";
+                case "left" -> "right";
+                case "right" -> "left";
+                default -> "";
             };
         }
     }
 
-    @Override
+    public boolean isTransDirection() {
+        return transDirection;
+    }
+
     public void setTransDirection(boolean transDirection) {
-        super.setTransDirection(transDirection);
+        this.transDirection = transDirection;
         if (transDirection) {
             setDelayTime(0);
         }
     }
 
-    @Override
     public void initDead() {
         life = -2;
         setDelayTime(15);
