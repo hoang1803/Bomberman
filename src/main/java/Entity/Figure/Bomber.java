@@ -10,7 +10,6 @@ public class Bomber extends Figure {
     public int deadFrame = 1;
     private int countDead = 0;
 
-    private int countBomb = 1;
     public Bomber() {
 
     }
@@ -27,13 +26,6 @@ public class Bomber extends Figure {
         super(x, y, img);
     }
 
-    public int getCountBomb() {
-        return countBomb;
-    }
-
-    public void setCountBomb(int countBomb) {
-        this.countBomb = countBomb;
-    }
 
     @Override
     protected void kill() {
