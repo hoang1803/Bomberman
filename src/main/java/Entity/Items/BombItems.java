@@ -35,7 +35,7 @@ public class BombItems extends Items {
             if (player.getX() == this.x && player.getY() == this.y) {
                 received = true;
                 setImage(Sprite.grass.getFxImage());
-                ((Bomber) player).setCountBomb(((Bomber) player).getCountBomb() + 1);
+                Bomb.countBomb++;
             }
         }
     }
