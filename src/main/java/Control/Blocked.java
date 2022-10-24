@@ -18,6 +18,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == KONDORIA
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == MINVO
+                || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == BOMB
                 || objectMap[entity.getY() / SCALED_SIZE + 1 + power][entity.getX() / SCALED_SIZE] == PLAYER;
     }
 
@@ -32,6 +33,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == KONDORIA
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == MINVO
+                || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == BOMB
                 || objectMap[entity.getY() / SCALED_SIZE - 1 - power][entity.getX() / SCALED_SIZE] == PLAYER;
     }
 
@@ -46,6 +48,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == KONDORIA
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == MINVO
+                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == BOMB
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE - 1 - power] == PLAYER;
     }
 
@@ -60,6 +63,7 @@ public class Blocked {
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == DOLL
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == KONDORIA
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == MINVO
+                || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == BOMB
                 || objectMap[entity.getY() / SCALED_SIZE][entity.getX() / SCALED_SIZE + 1 + power] == PLAYER;
     }
 }
