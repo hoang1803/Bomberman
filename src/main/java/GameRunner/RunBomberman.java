@@ -17,6 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static Sound.Sound.updateSound;
@@ -67,9 +68,7 @@ public class RunBomberman extends Application {
                     case LEFT -> Move.moveLeft(player);
                     case RIGHT -> Move.moveRight(player);
                     case SPACE -> {
-                        int countBomb = ((Bomber) player).getCountBomb();
-                        if (countBomb != 0) {
-                            ((Bomber) player).setCountBomb(--countBomb);
+                        if (Bomb.countBomb != 0 && Bomb.bombNumber > 0) {
                             Bomb.putBomb();
                         }
                     }
@@ -88,7 +87,7 @@ public class RunBomberman extends Application {
                     if(!isPause) {
                         update();
                     }
-                    update();
+//                    updateMenu();
                 }
             }
         };
@@ -136,6 +135,7 @@ public class RunBomberman extends Application {
         enemyDead.forEach(Figure::update);
 
         updateSound();
+
     }
 
     public void render() {
