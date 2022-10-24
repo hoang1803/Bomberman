@@ -20,8 +20,6 @@ public abstract class Figure extends Entity {
 
     protected int decreaseDelay = 0;
 
-    protected boolean transDirection = false;
-
     protected boolean renderedMobDead = false;
 
     protected boolean isDead = false;
@@ -131,13 +129,6 @@ public abstract class Figure extends Entity {
         this.renderedMobDead = renderedMobDead;
     }
 
-    public void setTransDirection(boolean transDirection) {
-        this.transDirection = transDirection;
-    }
-    public boolean isTransDirection() {
-        return transDirection;
-    }
-
     protected boolean checkBomb() {
         int esp = 8;
         int size = Sprite.SCALED_SIZE;
@@ -165,10 +156,6 @@ public abstract class Figure extends Entity {
         }
         delayTime--;
         return false;
-    }
-
-    public void initDead() {
-
     }
 
     protected void kill() {
