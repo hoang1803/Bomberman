@@ -54,8 +54,6 @@ public class Map {
             height = Integer.parseInt(st.nextToken());
             width = Integer.parseInt(st.nextToken());
 
-            block = new ArrayList<>();
-
             objectMap = new char[height][width];
             killObject = new int[height][width];
 
