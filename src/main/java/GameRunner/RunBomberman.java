@@ -9,6 +9,7 @@ import Entity.Figure.Enemies.Minvo;
 import Entity.Figure.Figure;
 import Graphics.Map;
 import Graphics.Sprite;
+import Level.NextLevel;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -29,6 +30,7 @@ public class RunBomberman extends Application {
     public static final int WIDTH = 31;
 
     public static int level = 1;
+
     public static List<Figure> enemy = new ArrayList<>();
     public static List<Entity> block = new ArrayList<>();
     public static List<Figure> enemyDead = new ArrayList<>(); // enemy chết
@@ -39,6 +41,7 @@ public class RunBomberman extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
+    public static boolean wait = false;
 
     public static boolean isPause = false;
 
@@ -89,6 +92,9 @@ public class RunBomberman extends Application {
                     if(!isPause) {
                         update();
                         update();
+                        if (!wait) {
+                            NextLevel.nextLevel();
+                        }
                     }
 //                    updateMenu();
                 }
