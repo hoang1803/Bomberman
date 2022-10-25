@@ -146,7 +146,6 @@ public class Bomb extends Entity {
         }
         block.addAll(listBombX);
         block.addAll(listBombY);
-        System.out.println("hahaha");
         System.out.println("UP: " + bombPower[UP]);
         System.out.println("DOWN: " + bombPower[DOWN]);
         System.out.println("LEFT: " + bombPower[LEFT]);
