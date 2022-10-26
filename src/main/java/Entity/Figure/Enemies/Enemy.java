@@ -49,7 +49,7 @@ abstract public class Enemy extends Figure {
         timeLeft--;
         if (timeLeft <= 0) {
             transDirection = true;
-            timeLeft = RAND.nextInt(100) * 10;
+            timeLeft = RAND.nextInt(200) * 10;
         }
 
         if (this.transDirection) {
