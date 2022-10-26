@@ -149,6 +149,7 @@ public class Menu {
     }
 
     public static void create(Group group) {
+        new Sound("welcome.wav", "welcome");
         initStatusBar();
         initBackground();
         initStatusGame();

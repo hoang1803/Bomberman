@@ -6,13 +6,18 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
+import static Control.Menu.loseGame;
+import static Control.Menu.winGame;
 import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.wait;
 
 public class Sound extends JFrame{
     public static Clip music;
     public static Clip bombExplosion;
     public static Clip justDied;
     public static Clip putBomb;
+    public static Clip welcome;
+
     public static boolean isSoundTitle = false;
     public static boolean isSoundDied = false;
 
@@ -31,6 +36,15 @@ public class Sound extends JFrame{
                 gainControl.setValue(-8.0f);
                 music.loop(10);
             }
+
+            if (sound.equals("welcome")) {
+                welcome = AudioSystem.getClip();
+                welcome.open(audio_input);
+                FloatControl gainControl = (FloatControl) welcome.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(-8.0f);
+                welcome.loop(10);
+            }
+
             if (sound.equals("explosion")) {
                 bombExplosion = AudioSystem.getClip();
                 bombExplosion.open(audio_input);
@@ -39,11 +53,13 @@ public class Sound extends JFrame{
                 bombExplosion.start();
                 hasBomb = true;
             }
+
             if (sound.equals("justDied")) {
                 justDied = AudioSystem.getClip();
                 justDied.open(audio_input);
                 justDied.start();
             }
+
             if (sound.equals("putBomb")) {
                 putBomb = AudioSystem.getClip();
                 putBomb.open(audio_input);
@@ -51,12 +67,6 @@ public class Sound extends JFrame{
                 gainControl.setValue(+6.0206f);
                 putBomb.start();
             }
-            if (sound.equals("default")) {
-                Clip clip = AudioSystem.getClip();
-                clip.open(audio_input);
-                clip.start();
-            }
-
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -64,6 +74,7 @@ public class Sound extends JFrame{
 
     public static void updateSound() {
         if (!isSoundTitle) {
+            welcome.close();
             new Sound("music.wav", "music");
             isSoundTitle = true;
         }
