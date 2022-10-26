@@ -1,5 +1,6 @@
 package GameRunner;
 
+import Control.Menu;
 import Control.Move;
 import Entity.Block.Bomb;
 import Entity.Entity;
@@ -16,6 +17,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.xml.stream.events.EndElement;
@@ -23,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static Control.Menu.*;
 import static Sound.Sound.updateSound;
 
 public class RunBomberman extends Application {
@@ -45,9 +50,11 @@ public class RunBomberman extends Application {
 
     public static boolean isPause = false;
 
-    public static boolean running = true;
+    public static boolean running = false;
+    public static boolean runningLevel = false;
 
     public static Stage stage = null;
+    private long lastTime;
 
     public static void main(String[] args) {
         launch(args);
@@ -56,17 +63,19 @@ public class RunBomberman extends Application {
     @Override
     public void start(Stage primaryStage) {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
-
+        canvas.setTranslateY(40);
 
         gc = canvas.getGraphicsContext2D();
+
         Group group = new Group();
-        group.getChildren().add(canvas);
-
+        group.getChildren().addAll(canvas);
+        Menu.create(group);
         Scene scene = new Scene(group);
-
         map = new Map(level);
+        player = new Bomber(Figure.speed * 4, 2, 5,"right", 1);
+
         scene.setOnKeyPressed(keyEvent -> {
-            if (player.getLife() > 0) {
+            if (player.getLife() > 0  && !isPause) {
                 switch (keyEvent.getCode()) {
                     case UP -> Move.moveUp(player);
                     case DOWN -> Move.moveDown(player);
@@ -77,13 +86,18 @@ public class RunBomberman extends Application {
                             Bomb.putBomb();
                         }
                     }
+                    case P -> isPause = true;
                 }
+            } else if (isPause && keyEvent.getCode() == KeyCode.P) {
+                isPause = false;
             }
         });
         primaryStage.setTitle("Bomberman");
+        scene.setFill(BRIGHT_BLUE);
         primaryStage.setScene(scene);
         stage = primaryStage;
         stage.show();
+        lastTime = System.currentTimeMillis();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -96,19 +110,18 @@ public class RunBomberman extends Application {
                             NextLevel.nextLevel();
                         }
                     }
-//                    updateMenu();
                 }
+                updateMenu();
             }
         };
         timer.start();
-        player = new Bomber(Figure.speed * 4, 2, 5,"right", 1);
     }
 
     public void update() {
         block.forEach(Entity::update);
         player.update();
         enemy.forEach(Figure::update);
-
+//        System.out.println(enemy);
         for (Figure figure: enemyDead) {
             if (figure.getCount() <= 0) {
                 enemyDead.remove(figure);
@@ -144,7 +157,7 @@ public class RunBomberman extends Application {
         enemyDead.forEach(Figure::update);
 
         updateSound();
-
+        updateTime();
     }
 
     public void render() {
@@ -153,5 +166,20 @@ public class RunBomberman extends Application {
         enemy.forEach(g -> g.render(gc));
         enemyDead.forEach(g -> g.render(gc));
         player.render(gc);
+    }
+
+    public void updateTime() {
+        if (runningLevel) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastTime >= 1000L) {
+                lastTime = currentTime;
+                Menu.timeLeft--;
+                if (timeLeft <= 0) {
+                    player.setLife(0);
+                }
+            }
+        } else {
+            lastTime = System.currentTimeMillis();
+        }
     }
 }
