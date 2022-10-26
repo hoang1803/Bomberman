@@ -1,10 +1,10 @@
 package Entity.Figure;
 
+import Control.Menu;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
-import static GameRunner.RunBomberman.enemy;
-import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.*;
 
 public class Bomber extends Figure {
     public int deadFrame = 1;
@@ -40,9 +40,7 @@ public class Bomber extends Figure {
                 setImage(Sprite.player_dead3.getFxImage());
                 deadFrame = 4;
             } else {
-                System.err.println("Ngu qua");
-                System.exit(1);
-
+                Menu.loseGame = true;
             }
         }
 
