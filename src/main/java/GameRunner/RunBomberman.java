@@ -17,14 +17,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.xml.stream.events.EndElement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static Control.Menu.*;
@@ -121,7 +117,6 @@ public class RunBomberman extends Application {
         block.forEach(Entity::update);
         player.update();
         enemy.forEach(Figure::update);
-//        System.out.println(enemy);
         for (Figure figure: enemyDead) {
             if (figure.getCount() <= 0) {
                 enemyDead.remove(figure);

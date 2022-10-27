@@ -1,18 +1,14 @@
 package Control;
 
 import Entity.Block.Bomb;
-import Entity.Block.Portal;
 import Entity.Figure.Bomber;
 import Entity.Figure.Figure;
 import GameRunner.RunBomberman;
 import Graphics.Map;
-import Graphics.Sprite;
-import Level.NextLevel;
 import Sound.Sound;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,7 +19,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 import static GameRunner.RunBomberman.*;
-import static GameRunner.RunBomberman.level;
 import static Sound.Sound.*;
 
 public class Menu {

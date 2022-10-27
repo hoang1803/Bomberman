@@ -7,7 +7,6 @@ import GameRunner.RunBomberman;
 import Graphics.Map;
 import Graphics.Sprite;
 
-import java.util.Scanner;
 
 import static Graphics.Sprite.*;
 

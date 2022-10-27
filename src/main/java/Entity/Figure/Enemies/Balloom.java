@@ -1,12 +1,7 @@
 package Entity.Figure.Enemies;
 
-import Control.Move;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
-
-import java.util.Collections;
-
-import static GameRunner.RunBomberman.*;
 
 
 public class Balloom extends Enemy {

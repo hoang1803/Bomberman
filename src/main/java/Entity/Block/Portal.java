@@ -3,13 +3,11 @@ package Entity.Block;
 import Control.Menu;
 import Entity.Figure.Bomber;
 import Entity.Figure.Figure;
-import GameRunner.RunBomberman;
 import Graphics.Map;
 import javafx.scene.image.Image;
 import Entity.Entity;
 
 import static GameRunner.RunBomberman.*;
-import static Level.NextLevel.numberOfLevel;
 
 
 public class Portal extends Entity {

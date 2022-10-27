@@ -2,14 +2,11 @@ package Entity.Figure.Enemies;
 
 import Control.Move;
 import Entity.Figure.Figure;
-import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
 import java.util.Random;
 
-import static GameRunner.RunBomberman.*;
-import static GameRunner.RunBomberman.objectMap;
 
 abstract public class Enemy extends Figure {
     public int deadFrame = 1;
