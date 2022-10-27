@@ -1,8 +1,6 @@
 package Entity.Items;
 
 import Entity.Block.Bomb;
-import Entity.Entity;
-import Entity.Figure.Bomber;
 import Graphics.Map;
 import Graphics.Sprite;
 import javafx.scene.image.Image;

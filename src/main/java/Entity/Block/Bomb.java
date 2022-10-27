@@ -3,7 +3,6 @@ package Entity.Block;
 import Control.Blocked;
 import Control.Move;
 import Entity.Entity;
-import Entity.Figure.Bomber;
 import Graphics.Sprite;
 
 import static Graphics.Map.BOMB;

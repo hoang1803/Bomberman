@@ -9,7 +9,6 @@ import java.io.IOException;
 import static Control.Menu.loseGame;
 import static Control.Menu.winGame;
 import static GameRunner.RunBomberman.player;
-import static GameRunner.RunBomberman.wait;
 
 public class Sound extends JFrame{
     public static Clip music;

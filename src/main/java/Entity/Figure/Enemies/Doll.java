@@ -5,7 +5,6 @@ import Entity.Figure.Intelligent.AStar;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
-import java.util.Objects;
 
 
 public class Doll extends Enemy {
