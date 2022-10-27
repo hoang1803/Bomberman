@@ -116,6 +116,14 @@ public class Move {
                 return speed;
             } else {
                 speed = Math.min(speed, figure.getY() % SCALED_SIZE);
+                if (figure instanceof Enemy) {
+                    y = figure.getY() / SCALED_SIZE;
+                    cur = RunBomberman.objectMap[y][x];
+                    cur2 = RunBomberman.objectMap[y][px];
+                    if (cur == Map.BOMB || cur2 == Map.BOMB) {
+                        speed = 0;
+                    }
+                }
             }
         }
 
@@ -179,6 +187,15 @@ public class Move {
                 return speed;
             } else {
                 speed = Math.min(speed, SCALED_SIZE - ((figure.getY() + SCALED_SIZE - 1) % SCALED_SIZE + 1));
+
+                if (figure instanceof Enemy) {
+                    y = (figure.getY() + SCALED_SIZE - 1) / SCALED_SIZE;
+                    cur = RunBomberman.objectMap[y][x];
+                    cur2 = RunBomberman.objectMap[y][px];
+                    if (cur == Map.BOMB || cur2 == Map.BOMB) {
+                        speed = 0;
+                    }
+                }
             }
         }
         return speed;
@@ -240,6 +257,14 @@ public class Move {
                 return speed;
             } else {
                 speed = Math.min(speed, figure.getX() % SCALED_SIZE);
+                if (figure instanceof Enemy) {
+                    x = figure.getX() / SCALED_SIZE;
+                    cur = RunBomberman.objectMap[y][x];
+                    cur2 = RunBomberman.objectMap[py][x];
+                    if (cur == Map.BOMB || cur2 == Map.BOMB) {
+                        speed = 0;
+                    }
+                }
             }
         }
         return speed;
@@ -301,6 +326,12 @@ public class Move {
                 return speed;
             } else {
                 speed = Math.min(speed, SCALED_SIZE - ((figure.getX() + SCALED_SIZE - 1) % SCALED_SIZE + 1));
+                x = (figure.getX() + SCALED_SIZE - 1) / SCALED_SIZE;
+                cur = RunBomberman.objectMap[y][x];
+                cur2 = RunBomberman.objectMap[py][x];
+                if (cur == Map.BOMB || cur2 == Map.BOMB) {
+                    speed = 0;
+                }
             }
         }
         return speed;
