@@ -31,8 +31,6 @@ public class Portal extends Entity {
         if (isPortal) {
             Menu.nextLevel = true;
             long currentTime = System.currentTimeMillis();
-            // The loading page
-            System.out.println("Loading new map");
             if (currentTime - waitingTime > 3000) {
                 player = new Bomber(Figure.speed * 4, 2, 5,"right", 1);
                 Bomb.countBomb = 1;
@@ -42,15 +40,15 @@ public class Portal extends Entity {
                 switch (level) {
                     case 1 -> {
                         Bomb.bombNumber = 20;
-                        Menu.timeLeft = 120;
+                        Menu.timeLeft = 100;
                     }
                     case 2 -> {
                         Bomb.bombNumber = 30;
                         Menu.timeLeft = 150;
                     }
                     case 3 -> {
-                        Bomb.bombNumber = 40;
-                        Menu.timeLeft = 170;
+                        Bomb.bombNumber = 50;
+                        Menu.timeLeft = 250;
                     }
                 }
                 wait = false;
