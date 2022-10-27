@@ -3,6 +3,7 @@ package GameRunner;
 import Control.Menu;
 import Control.Move;
 import Entity.Block.Bomb;
+import Entity.Block.Portal;
 import Entity.Entity;
 import Entity.Figure.Bomber;
 import Entity.Figure.Enemies.Enemy;
@@ -51,6 +52,8 @@ public class RunBomberman extends Application {
 
     public static Stage stage = null;
     private long lastTime;
+
+    private final boolean isAdmin = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -113,9 +116,25 @@ public class RunBomberman extends Application {
         timer.start();
     }
 
+    private void adminMode() {
+        player.setLife(10000000);
+        if (objectMap[HEIGHT - 2][WIDTH - 2] != Map.PORTAL) {
+            block.add(new Portal(WIDTH - 2, HEIGHT - 2, Sprite.portal.getFxImage()));
+            objectMap[HEIGHT - 2][WIDTH - 2] = Map.PORTAL;
+        }
+        Bomb.range = 4;
+        Bomb.bombNumber = 999;
+        Bomb.countBomb = 999;
+        timeLeft = 999;
+    }
     public void update() {
         block.forEach(Entity::update);
         player.update();
+
+        if (isAdmin) {
+            adminMode();
+        }
+
         enemy.forEach(Figure::update);
         for (Figure figure: enemyDead) {
             if (figure.getCount() <= 0) {
