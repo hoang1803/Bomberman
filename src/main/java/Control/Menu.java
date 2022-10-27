@@ -49,7 +49,7 @@ public class Menu {
 
     private static void initLevel() {
         level = new Text("");
-        level.setFont(Font.font(".VnCooperH", FontWeight.BOLD, 20));
+        level.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         level.setFill(Color.WHITE);
         level.setX(400);
         level.setY(28);
@@ -57,7 +57,7 @@ public class Menu {
 
     private static void initBomb() {
         bomb = new Text("");
-        bomb.setFont(Font.font(".VnCooperH", FontWeight.BOLD, 20));
+        bomb.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         bomb.setFill(Color.WHITE);
         bomb.setX(520);
         bomb.setY(28);
@@ -65,7 +65,7 @@ public class Menu {
 
     private static void initTime() {
         time = new Text("");
-        time.setFont(Font.font(".VnCooperH", FontWeight.BOLD, 20));
+        time.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         time.setFill(Color.WHITE);
         time.setX(650);
         time.setY(28);
@@ -80,16 +80,16 @@ public class Menu {
         statusGame = new ImageView(startButton);
         statusGame.setX(183);
         statusGame.setY(160);
-        statusGame.setScaleX(0.45);
-        statusGame.setScaleY(0.45);
+        statusGame.setScaleX(0.4);
+        statusGame.setScaleY(0.4);
     }
 
     private static void initExit() {
         exit = new ImageView(loadImg("res/menu/exit.png"));
         exit.setX(183);
         exit.setY(260);
-        exit.setScaleX(0.45);
-        exit.setScaleY(0.45);
+        exit.setScaleX(0.4);
+        exit.setScaleY(0.4);
     }
 
     private static void initStatusBar() {
@@ -178,6 +178,10 @@ public class Menu {
 
             updateMenu();
         });
+
+        exit.setOnMouseClicked(event -> {
+            System.exit(0);
+        });
     }
 
     private static void win() {
@@ -200,6 +204,8 @@ public class Menu {
         runningLevel = false;
         statusGame.setScaleX(0);
         statusGame.setScaleY(0);
+        exit.setScaleX(0);
+        exit.setScaleY(0);
         loading();
     }
 
@@ -211,15 +217,14 @@ public class Menu {
             statusGame.setImage(startButton);
             statusGame.setX(183);
             statusGame.setY(160);
-            statusGame.setScaleX(0.45);
-            statusGame.setScaleY(0.45);
+            statusGame.setScaleX(0.4);
+            statusGame.setScaleY(0.4);
 
-            if(winGame || loseGame) {
-                exit.setX(183);
-                exit.setY(260);
-                exit.setScaleX(0.45);
-                exit.setScaleY(0.45);
-            }
+            exit.setX(183);
+            exit.setY(260);
+            exit.setScaleX(0.4);
+            exit.setScaleY(0.4);
+
             if (winGame) {
                 win();
             } else if (loseGame) {
@@ -231,7 +236,7 @@ public class Menu {
             background.setImage(loadImg("res/menu/transparent.png"));
             level.setText("Level: " + RunBomberman.level);
             bomb.setText("Bombs: " + Bomb.bombNumber);
-            time.setText("Times: " + timeLeft);
+            time.setText("Times: " + timeLeft + "s");
 
             statusGame.setX(-160);
             statusGame.setY(-100);
