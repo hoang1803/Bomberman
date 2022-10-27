@@ -15,8 +15,10 @@ public class NextLevel {
     public static void nextLevel() {
         if (level < numberOfLevel) {
             if (enemy.isEmpty()) {
-                block.add(new Portal(WIDTH - 2, HEIGHT - 2, Sprite.portal.getFxImage()));
-                objectMap[HEIGHT - 2][WIDTH - 2] = Map.PORTAL;
+                if (objectMap[HEIGHT - 2][WIDTH - 2] != Map.PORTAL) {
+                    block.add(new Portal(WIDTH - 2, HEIGHT - 2, Sprite.portal.getFxImage()));
+                    objectMap[HEIGHT - 2][WIDTH - 2] = Map.PORTAL;
+                }
                 RunBomberman.wait = true;
             }
         } else {
