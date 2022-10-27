@@ -211,13 +211,13 @@ public class Menu {
             bomb.setText("");
             time.setText("");
             statusGame.setImage(startButton);
-            statusGame.setX(185);
-            statusGame.setY(160);
+            statusGame.setX(50);
+            statusGame.setY(180);
             statusGame.setScaleX(0.4);
             statusGame.setScaleY(0.4);
 
-            exit.setX(185);
-            exit.setY(260);
+            exit.setX(320);
+            exit.setY(180);
             exit.setScaleX(0.4);
             exit.setScaleY(0.4);
 
