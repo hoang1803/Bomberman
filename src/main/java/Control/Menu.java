@@ -64,6 +64,7 @@ public class Menu {
         time.setFill(Color.WHITE);
         time.setX(650);
         time.setY(28);
+
     }
 
     private static void initStatusGame() {
@@ -74,7 +75,7 @@ public class Menu {
 
         statusGame = new ImageView(startButton);
         statusGame.setX(185);
-        statusGame.setY(160);
+        statusGame.setY(120);
         statusGame.setScaleX(0.4);
         statusGame.setScaleY(0.4);
     }
@@ -82,7 +83,7 @@ public class Menu {
     private static void initExit() {
         exit = new ImageView(loadImg("res/menu/exit.png"));
         exit.setX(185);
-        exit.setY(260);
+        exit.setY(220);
         exit.setScaleX(0.4);
         exit.setScaleY(0.4);
     }
