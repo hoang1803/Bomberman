@@ -75,7 +75,7 @@ public class Menu {
 
         statusGame = new ImageView(startButton);
         statusGame.setX(185);
-        statusGame.setY(120);
+        statusGame.setY(100);
         statusGame.setScaleX(0.4);
         statusGame.setScaleY(0.4);
     }
@@ -83,7 +83,7 @@ public class Menu {
     private static void initExit() {
         exit = new ImageView(loadImg("res/menu/exit.png"));
         exit.setX(185);
-        exit.setY(220);
+        exit.setY(200);
         exit.setScaleX(0.4);
         exit.setScaleY(0.4);
     }
