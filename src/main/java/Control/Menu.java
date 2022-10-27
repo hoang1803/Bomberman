@@ -24,7 +24,7 @@ import java.net.MalformedURLException;
 
 import static GameRunner.RunBomberman.*;
 import static GameRunner.RunBomberman.level;
-import static Sound.Sound.music;
+import static Sound.Sound.*;
 
 public class Menu {
     public static ImageView statusGame;
@@ -160,6 +160,9 @@ public class Menu {
             if(runningLevel) {
                 isPause = !isPause;
             } else if (startGame || winGame || loseGame) {
+                if (startGame) {
+                    welcome.close();
+                }
                 restartGame();
             }
 

@@ -45,6 +45,12 @@ public class Sound extends JFrame{
                 welcome.loop(10);
             }
 
+            if (sound.equals("endGame")) {
+                Clip endGame = AudioSystem.getClip();
+                endGame.open(audio_input);
+                endGame.start();
+            }
+
             if (sound.equals("explosion")) {
                 bombExplosion = AudioSystem.getClip();
                 bombExplosion.open(audio_input);
@@ -74,7 +80,6 @@ public class Sound extends JFrame{
 
     public static void updateSound() {
         if (!isSoundTitle) {
-            welcome.close();
             new Sound("music.wav", "music");
             isSoundTitle = true;
         }
@@ -87,6 +92,14 @@ public class Sound extends JFrame{
                 new Sound("Died.wav", "justDied");
                 isSoundDied = true;
             }
+        }
+
+        if (loseGame || winGame) {
+            music.close();
+            if (hasBomb) {
+                bombExplosion.close();
+            }
+            new Sound("endGame.wav", "endGame");
         }
     }
 }
