@@ -78,7 +78,7 @@ public class Menu {
         restartButton = loadImg("res/menu/restart.png");
 
         statusGame = new ImageView(startButton);
-        statusGame.setX(183);
+        statusGame.setX(185);
         statusGame.setY(160);
         statusGame.setScaleX(0.4);
         statusGame.setScaleY(0.4);
@@ -86,7 +86,7 @@ public class Menu {
 
     private static void initExit() {
         exit = new ImageView(loadImg("res/menu/exit.png"));
-        exit.setX(183);
+        exit.setX(185);
         exit.setY(260);
         exit.setScaleX(0.4);
         exit.setScaleY(0.4);
@@ -215,12 +215,12 @@ public class Menu {
             bomb.setText("");
             time.setText("");
             statusGame.setImage(startButton);
-            statusGame.setX(183);
+            statusGame.setX(185);
             statusGame.setY(160);
             statusGame.setScaleX(0.4);
             statusGame.setScaleY(0.4);
 
-            exit.setX(183);
+            exit.setX(185);
             exit.setY(260);
             exit.setScaleX(0.4);
             exit.setScaleY(0.4);
@@ -239,7 +239,7 @@ public class Menu {
             time.setText("Times: " + timeLeft + "s");
 
             statusGame.setX(-160);
-            statusGame.setY(-100);
+            statusGame.setY(-87);
             statusGame.setScaleX(0.18);
             statusGame.setScaleY(0.18);
 
