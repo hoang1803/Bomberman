@@ -28,6 +28,7 @@ import static Sound.Sound.*;
 
 public class Menu {
     public static ImageView statusGame;
+    public static ImageView exit;
     private static Text level, bomb, time;
     public static int timeLeft = 120;
     public static ImageView background = null;
@@ -81,6 +82,14 @@ public class Menu {
         statusGame.setY(160);
         statusGame.setScaleX(0.45);
         statusGame.setScaleY(0.45);
+    }
+
+    private static void initExit() {
+        exit = new ImageView(loadImg("res/menu/exit.png"));
+        exit.setX(183);
+        exit.setY(260);
+        exit.setScaleX(0.45);
+        exit.setScaleY(0.45);
     }
 
     private static void initStatusBar() {
@@ -153,8 +162,9 @@ public class Menu {
         initStatusBar();
         initBackground();
         initStatusGame();
+        initExit();
 
-        group.getChildren().addAll(background, statusBar, statusGame);
+        group.getChildren().addAll(background, statusBar, statusGame, exit);
 
         statusGame.setOnMouseClicked(event -> {
             if(runningLevel) {
@@ -204,6 +214,12 @@ public class Menu {
             statusGame.setScaleX(0.45);
             statusGame.setScaleY(0.45);
 
+            if(winGame || loseGame) {
+                exit.setX(183);
+                exit.setY(260);
+                exit.setScaleX(0.45);
+                exit.setScaleY(0.45);
+            }
             if (winGame) {
                 win();
             } else if (loseGame) {
@@ -221,6 +237,9 @@ public class Menu {
             statusGame.setY(-100);
             statusGame.setScaleX(0.18);
             statusGame.setScaleY(0.18);
+
+            exit.setScaleX(0);
+            exit.setScaleY(0);
 
             if (isPause) {
                 statusGame.setImage(resumeButton);
