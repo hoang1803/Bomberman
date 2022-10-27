@@ -32,8 +32,8 @@ Enemy:
 - ![](res/sprites/balloom_left1.png) *Balloom* là Enemy đơn giản nhất, di chuyển ngẫu nhiên với vận tốc cố định
 - ![](res/sprites/oneal_left1.png) *Oneal* có tốc độ di chuyển thay đổi, lúc nhanh, lúc chậm và di chuyển "thông minh" hơn so với Balloom (biết đuổi theo Bomber theo tọa độ)
 - ![](res/sprites/doll_left1.png) *Doll* khi không tìm được đường đi đến Bomber, Doll sẽ di chuyển với vận tốc bình thường. Khi tìm được đường đi, Doll sẽ di chuyển nhanh hơn để đuổi theo Bomber
-- ![](res/sprites/kondoria_left1.png) *Kondoria* di chuyển giống Balloom nhưng có thể đi qua các *Brick*
-- ![](res/sprites/minvo_left1.png) *Minvo* di chuyển giống Balloom nhưng khi chết sẽ sinh ra một Enemy bất kỳ
+- ![](res/sprites/kondoria_left1.png) *Kondoria* di chuyển giống Balloom nhưng có thể đi qua các Brick
+- ![](res/sprites/minvo_left1.png) *Minvo* di chuyển giống Balloom nhưng khi chết sẽ sinh ra một enemy bất kỳ trong các enemy còn lại
 
 ## Mô tả game play, xử lý va chạm và xử lý bom nổ
 - Trong một màn chơi, Bomber sẽ được người chơi di chuyển, đặt và kích hoạt Bomb với mục tiêu chính là tiêu diệt tất cả Enemy và tìm ra vị trí Portal để có thể qua màn mới
